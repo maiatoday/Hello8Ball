@@ -24,3 +24,5 @@ Run the tests in Android studio or use the command line.
 ### Instrumented tests
 
 `./gradlew connectedAndroidTest`
+
+![](screenshots/Screenshot_1566145786.png)
