@@ -13,7 +13,7 @@ class MyViewModel : ViewModel() {
         return answer
     }
 
-    fun fetchAnswer() {
-        answer.value = "Better not tell you now."
+    fun fetchAnswer(question:String) {
+        answer.value = MyRepository.getAnswer(question)
     }
 }

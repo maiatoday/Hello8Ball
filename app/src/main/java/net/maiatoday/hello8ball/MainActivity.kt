@@ -27,9 +27,11 @@ class MainActivity : AppCompatActivity() {
                 Snackbar.make(view, "Enter a question", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
             } else {
-                model.fetchAnswer()
+                model.fetchAnswer(question.text.toString())
             }
         }
+
+        MyRepository.setAnswers(resources.getStringArray(R.array.answers))
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
