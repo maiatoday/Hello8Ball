@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">Hello8Ball</string>
     <string name="action_settings">Settings</string>
+  <string name="_8_ball">8 Ball</string>
 
-    <string-array name="answers">
+  <string-array name="answers">
       <item>It is certain.</item>
       <item>It is decidedly so.</item>
       <item>Without a doubt.</item>

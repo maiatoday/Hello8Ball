@@ -12,7 +12,7 @@
         android:id="@+id/answer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Don't count on it."
+        tools:text="Don't count on it."
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         app:layout_constraintBottom_toTopOf="@+id/image8ball"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,7 +35,8 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image8ball"
-        tools:text="Is there cake for dinner?" />
+        tools:text="Is there cake for dinner?"
+        tools:ignore="Autofill,LabelFor" />
 
     <ImageView
         android:id="@+id/image8ball"
@@ -52,7 +53,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/answer"
-        app:srcCompat="@drawable/ic_ball" />
+        app:srcCompat="@drawable/ic_ball"
+        android:contentDescription="@string/_8_ball" />
 
     <ProgressBar
         android:id="@+id/progressBar"
