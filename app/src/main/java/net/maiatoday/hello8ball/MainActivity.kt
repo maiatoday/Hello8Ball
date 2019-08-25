@@ -18,7 +18,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        val model = ViewModelProviders.of(this)[MyViewModel::class.java]
+
+        val repository = QuestionRepository(QuestionNetworkFake)
+        val model = ViewModelProviders
+            .of(this, MyViewModel.FACTORY(repository))
+            .get(MyViewModel::class.java)
+
         model.answer.observe(this, Observer<String> { newAnswer ->
             answer.text = newAnswer
         })
@@ -31,7 +36,7 @@ class MainActivity : AppCompatActivity() {
             model.fetchAnswer(question.text.toString())
         }
 
-        fab.setOnClickListener { view ->
+        fab.setOnClickListener {
             model.fetchAnswer(question.text.toString())
         }
     }

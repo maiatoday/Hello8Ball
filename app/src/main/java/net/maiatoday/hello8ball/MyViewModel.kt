@@ -6,32 +6,41 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import net.maiatoday.hello8ball.util.singleArgViewModelFactory
 
-class MyViewModel : ViewModel() {
-   // private val repository: QuestionRepository
-    private val _answer: MutableLiveData<String> by lazy {
-        MutableLiveData<String>()
+class MyViewModel(private val repository: QuestionRepository) : ViewModel() {
+
+    companion object {
+        /**
+         * Factory for creating [MyViewModel]
+         *
+         * @param arg the repository to pass to [MyViewModel]
+         */
+        val FACTORY = singleArgViewModelFactory(::MyViewModel)
     }
+
+    /**
+     * Answer from the repository
+     */
+    val answer = repository.answer
+
     private val _isLoading: MutableLiveData<Boolean> by lazy {
         MutableLiveData<Boolean>()
     }
-
     val isloading: LiveData<Boolean>
         get() = _isLoading
 
-    val answer: LiveData<String>
-        get() = _answer
-
-
-    fun fetchAnswer(question:String) {
+    /**
+     * Ask the repository for the answer
+     */
+    fun fetchAnswer(question: String) {
         launchDataLoad {
-            _answer.value = QuestionNetworkFake.getAnswer()
+            repository.getAnswer(question)
         }
     }
 
     /**
-     * Helper function to call a data load function with a loading spinner, errors will trigger a
-     * snackbar.
+     * Helper function to call a data load function with a loading spinner
      *
      * By marking `block` as `suspend` this creates a suspend lambda which can call suspend
      * functions.
