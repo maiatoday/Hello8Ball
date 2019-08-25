@@ -5,6 +5,7 @@ import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 
@@ -20,6 +21,15 @@ class MainActivity : AppCompatActivity() {
         val model = ViewModelProviders.of(this)[MyViewModel::class.java]
         model.getAnswer().observe(this, Observer<String> { newAnswer ->
             answer.text = newAnswer
+        })
+        model.getIsLoading().observe(this, Observer<Boolean>{ isLoading ->
+            if (isLoading) {
+                image8ball.visibility = View.INVISIBLE
+                progressBar.visibility = View.VISIBLE
+            } else {
+                image8ball.visibility = View.VISIBLE
+                progressBar.visibility = View.GONE
+            }
         })
 
         fab.setOnClickListener { view ->
