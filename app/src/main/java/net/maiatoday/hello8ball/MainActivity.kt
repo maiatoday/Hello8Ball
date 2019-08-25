@@ -19,29 +19,21 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         val model = ViewModelProviders.of(this)[MyViewModel::class.java]
-        model.getAnswer().observe(this, Observer<String> { newAnswer ->
+        model.answer.observe(this, Observer<String> { newAnswer ->
             answer.text = newAnswer
         })
-        model.getIsLoading().observe(this, Observer<Boolean>{ isLoading ->
-            if (isLoading) {
-                image8ball.visibility = View.INVISIBLE
-                progressBar.visibility = View.VISIBLE
-            } else {
-                image8ball.visibility = View.VISIBLE
-                progressBar.visibility = View.GONE
-            }
+        model.isloading.observe(this, Observer<Boolean> { isLoading ->
+            progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+            image8ball.visibility = if (isLoading) View.INVISIBLE else View.VISIBLE
         })
 
-        fab.setOnClickListener { view ->
-            if (question.text.isEmpty()) {
-                Snackbar.make(view, "Enter a question", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-            } else {
-                model.fetchAnswer(question.text.toString())
-            }
+        image8ball.setOnClickListener {
+            model.fetchAnswer(question.text.toString())
         }
 
-        MyRepository.setAnswers(resources.getStringArray(R.array.answers))
+        fab.setOnClickListener { view ->
+            model.fetchAnswer(question.text.toString())
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
