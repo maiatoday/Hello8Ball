@@ -21,9 +21,9 @@ class QuestionRepository(val network: QuestionInterface) {
         _answer.value = ponder(question)
     }
 
-    suspend fun ponder(question: String):String {
+    suspend fun ponder(question: String): String {
         var newAnswer = ""
-        val possibleNumber:Int? = question.toIntOrNull()
+        val possibleNumber: Int? = question.toIntOrNull()
         if (question.contains("life") &&
             question.contains("universe")
         ) {
@@ -38,6 +38,6 @@ class QuestionRepository(val network: QuestionInterface) {
                 newAnswer = network.getAnswer()
             }
         }
-       return newAnswer
+        return newAnswer
     }
 }

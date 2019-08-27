@@ -29,7 +29,7 @@ object QuestionNetworkFake : QuestionInterface {
 
     override suspend fun getAnswer(): String {
         // simulate a network call here
-        val randomMillis = (500 + 1000 * Math.random()).toLong()
+        val randomMillis = (500 + 3000 * Math.random()).toLong()
         delay(randomMillis)
         return answers.shuffled().first()
     }
