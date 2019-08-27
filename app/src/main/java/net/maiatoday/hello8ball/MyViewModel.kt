@@ -6,18 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import net.maiatoday.hello8ball.util.singleArgViewModelFactory
 
 class MyViewModel(private val repository: QuestionRepository) : ViewModel() {
-
-    companion object {
-        /**
-         * Factory for creating [MyViewModel]
-         *
-         * @param arg the repository to pass to [MyViewModel]
-         */
-        val FACTORY = singleArgViewModelFactory(::MyViewModel)
-    }
 
     /**
      * Answer from the repository
