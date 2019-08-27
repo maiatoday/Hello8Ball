@@ -1,43 +1,38 @@
 package net.maiatoday.hello8ball
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
+
+    private val myViewModel: MyViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        val repository = QuestionRepository(QuestionNetworkFake)
-        val model = ViewModelProviders
-            .of(this, MyViewModel.FACTORY(repository))
-            .get(MyViewModel::class.java)
-
-        model.answer.observe(this, Observer<String> { newAnswer ->
+        myViewModel.answer.observe(this, Observer<String> { newAnswer ->
             answer.text = newAnswer
         })
-        model.isloading.observe(this, Observer<Boolean> { isLoading ->
+        myViewModel.isloading.observe(this, Observer<Boolean> { isLoading ->
             progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
             image8ball.visibility = if (isLoading) View.INVISIBLE else View.VISIBLE
         })
 
         image8ball.setOnClickListener {
-            model.fetchAnswer(question.text.toString())
+            myViewModel.fetchAnswer(question.text.toString())
         }
 
         fab.setOnClickListener {
-            model.fetchAnswer(question.text.toString())
+            myViewModel.fetchAnswer(question.text.toString())
         }
     }
 
