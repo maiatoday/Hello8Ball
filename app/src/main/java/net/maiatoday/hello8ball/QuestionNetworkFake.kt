@@ -4,7 +4,7 @@ import kotlinx.coroutines.delay
 
 object QuestionNetworkFake : QuestionInterface {
 
-    private val answers: List<String> = listOf(
+    internal val answers: List<String> = listOf(
         "It is certain.",
         "It is decidedly so.",
         "Without a doubt.",

@@ -18,13 +18,16 @@ class QuestionRepository(val network: QuestionInterface) {
         get() = _answer
 
     suspend fun getAnswer(question: String) {
+        _answer.value = ponder(question)
+    }
+
+    suspend fun ponder(question: String):String {
         var newAnswer = ""
         val possibleNumber:Int? = question.toIntOrNull()
         if (question.contains("life") &&
             question.contains("universe")
         ) {
-            _answer.value = "42"
-            return
+            newAnswer = "42"
         } else if (possibleNumber != null) {
             withContext(Dispatchers.Default) {
                 val primeAnswer = if (isPrime(possibleNumber)) "" else " not"
@@ -35,6 +38,6 @@ class QuestionRepository(val network: QuestionInterface) {
                 newAnswer = network.getAnswer()
             }
         }
-        _answer.value = newAnswer
+       return newAnswer
     }
 }
