@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 
@@ -38,6 +39,16 @@ class MainActivity : AppCompatActivity() {
 
         fab.setOnClickListener {
             model.fetchAnswer(question.text.toString())
+        }
+
+        question.setOnEditorActionListener { v, actionId, event ->
+            return@setOnEditorActionListener when (actionId) {
+                EditorInfo.IME_ACTION_DONE -> {
+                    model.fetchAnswer(question.text.toString())
+                    false
+                }
+                else -> false
+            }
         }
     }
 
