@@ -2,12 +2,16 @@ package net.maiatoday.hello8ball
 
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
 import org.mockito.Mockito
 
 class QuestionRepositoryTest {
 
     val mockQuestionInterface = Mockito.mock(QuestionInterface::class.java)
+    val testDispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
+
 
     @Test
     fun `should return 42 on life universe question`() = runBlocking {
@@ -47,8 +51,17 @@ class QuestionRepositoryTest {
     }
 
     @Test
-    fun `should return answer from fake network`() = runBlocking  {
+    fun `☠️ should return answer from fake network (delay)`() = runBlocking  {
         val subject = QuestionRepository(QuestionNetworkFake)
+
+        val answer = subject.ponder("Any question")
+
+        assertThat(answer).isIn(QuestionNetworkFake.answers)
+    }
+
+    @Test
+    fun `🚀 should return answer from fake network (no delay)`() = testDispatcher.runBlockingTest  {
+        val subject = QuestionRepository(QuestionNetworkFake, testDispatcher, testDispatcher)
 
         val answer = subject.ponder("Any question")
 

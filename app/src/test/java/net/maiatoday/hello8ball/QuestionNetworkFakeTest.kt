@@ -10,14 +10,14 @@ import org.junit.Test
 class QuestionNetworkFakeTest {
 
     @Test
-    fun `should return valid answer (delay)`() = runBlocking  {
+    fun `☠️ should return valid answer (delay)`() = runBlocking  {
         val answer = QuestionNetworkFake.getAnswer()
         assertThat(answer).isIn(QuestionNetworkFake.answers)
     }
 
     @ExperimentalCoroutinesApi
     @Test
-    fun `should return valid answer (no delay)`() = runBlockingTest  {
+    fun `🚀 should return valid answer (no delay)`() = runBlockingTest  {
         val answer = QuestionNetworkFake.getAnswer()
         assertThat(answer).isIn(QuestionNetworkFake.answers)
     }
