@@ -1,4 +1,4 @@
-package net.maiatoday.hello8ball
+package net.maiatoday.hello8ball.testutil
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer

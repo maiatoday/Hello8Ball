@@ -1,4 +1,4 @@
-package net.maiatoday.hello8ball
+package net.maiatoday.hello8ball.testutil
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

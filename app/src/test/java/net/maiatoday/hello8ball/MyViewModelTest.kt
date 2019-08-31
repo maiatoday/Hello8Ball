@@ -3,11 +3,9 @@ package net.maiatoday.hello8ball
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
-import kotlinx.coroutines.delay
-
-import org.junit.Ignore
+import net.maiatoday.hello8ball.testutil.CoroutinesTestRule
+import net.maiatoday.hello8ball.testutil.getValueForTest
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito
@@ -97,14 +95,5 @@ class MyViewModelTest {
             }
         }
 
-    @Test
-    fun `☠️ asking a real question returns an answer (delay)`() = runBlocking {
-        val repository = QuestionRepository(QuestionNetworkFake)
-        val subject = MyViewModel(repository)
-
-        subject.fetchAnswer("hello world")
-        delay(5000)
-        assertThat(subject.answer.getValueForTest()).isIn(QuestionNetworkFake.answers)
-    }
 
 }
