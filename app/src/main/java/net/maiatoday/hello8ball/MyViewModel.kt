@@ -25,8 +25,11 @@ class MyViewModel(private val repository: QuestionRepository) : ViewModel() {
     val answer = repository.answer
 
     private val _isLoading: MutableLiveData<Boolean> by lazy {
-        MutableLiveData<Boolean>()
+        val liveData = MutableLiveData<Boolean>()
+        liveData.value = false
+        return@lazy liveData
     }
+
     val isloading: LiveData<Boolean>
         get() = _isLoading
 
