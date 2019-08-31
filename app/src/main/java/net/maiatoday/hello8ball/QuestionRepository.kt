@@ -2,9 +2,8 @@ package net.maiatoday.hello8ball
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import net.maiatoday.hello8ball.util.DispatcherProvider
 import net.maiatoday.hello8ball.util.isPrime
 
 /**
@@ -13,8 +12,7 @@ import net.maiatoday.hello8ball.util.isPrime
  */
 class QuestionRepository(
     val network: QuestionInterface,
-    val dispatcherIO: CoroutineDispatcher = Dispatchers.IO,
-    val dispatcherDefault: CoroutineDispatcher = Dispatchers.Default
+    val contextProvider:DispatcherProvider = DispatcherProvider()
 ) {
     private val _answer: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
@@ -34,12 +32,12 @@ class QuestionRepository(
         ) {
             newAnswer = "42"
         } else if (possibleNumber != null) {
-            withContext(dispatcherIO) {
+            withContext(contextProvider.IO) {
                 val primeAnswer = if (isPrime(possibleNumber)) "" else " not"
                 newAnswer = "$possibleNumber is$primeAnswer Prime"
             }
         } else {
-            withContext(dispatcherDefault) {
+            withContext(contextProvider.Default) {
                 newAnswer = network.getAnswer()
             }
         }

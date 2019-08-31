@@ -6,12 +6,12 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
 import net.maiatoday.hello8ball.testutil.CoroutinesTestRule
+import net.maiatoday.hello8ball.testutil.TestDispatcherProvider
 import net.maiatoday.hello8ball.testutil.getValueForTest
-import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 
-@Ignore
+//@Ignore
 class SlowFastTests {
 
     // Set the main coroutines dispatcher for unit testing.
@@ -22,6 +22,9 @@ class SlowFastTests {
     // Executes each task synchronously using Architecture Components.
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
+
+    val testDispatcher = coroutinesTestRule.testDispatcher
+    val contextProvider = TestDispatcherProvider(testDispatcher)
 
     @Test
     fun `☠️ should return valid answer (delay)`() = runBlocking {
@@ -53,8 +56,7 @@ class SlowFastTests {
 
                 val repository = QuestionRepository(
                     QuestionNetworkFake,
-                    coroutinesTestRule.testDispatcher,
-                    coroutinesTestRule.testDispatcher
+                    contextProvider
                 )
                 val subject = MyViewModel(repository)
 
@@ -78,8 +80,7 @@ class SlowFastTests {
         coroutinesTestRule.testDispatcher.runBlockingTest {
             val subject = QuestionRepository(
                 QuestionNetworkFake,
-                coroutinesTestRule.testDispatcher,
-                coroutinesTestRule.testDispatcher
+                contextProvider
             )
 
             val answer = subject.ponder("Any question")

@@ -4,6 +4,7 @@ import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
+import net.maiatoday.hello8ball.testutil.TestDispatcherProvider
 import org.junit.Test
 import org.mockito.Mockito
 
@@ -11,7 +12,7 @@ class QuestionRepositoryTest {
 
     val mockQuestionInterface = Mockito.mock(QuestionInterface::class.java)
     val testDispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
-
+    val contextProvider = TestDispatcherProvider(testDispatcher)
 
     @Test
     fun `should return 42 on life universe question`() = runBlocking {
@@ -52,7 +53,7 @@ class QuestionRepositoryTest {
 
     @Test
     fun `🚀 should return answer from fake network (no delay)`() = testDispatcher.runBlockingTest  {
-        val subject = QuestionRepository(QuestionNetworkFake, testDispatcher, testDispatcher)
+        val subject = QuestionRepository(QuestionNetworkFake, contextProvider)
 
         val answer = subject.ponder("Any question")
 

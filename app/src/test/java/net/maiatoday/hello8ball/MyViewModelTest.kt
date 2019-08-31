@@ -5,6 +5,7 @@ import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import net.maiatoday.hello8ball.testutil.CoroutinesTestRule
+import net.maiatoday.hello8ball.testutil.TestDispatcherProvider
 import net.maiatoday.hello8ball.testutil.getValueForTest
 import org.junit.Rule
 import org.junit.Test
@@ -21,6 +22,9 @@ class MyViewModelTest {
     // Executes each task synchronously using Architecture Components.
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
+
+    val testDispatcher = coroutinesTestRule.testDispatcher
+    val contextProvider = TestDispatcherProvider(testDispatcher)
 
     @Test
     fun `loading is false in the beginning`() {
@@ -45,13 +49,12 @@ class MyViewModelTest {
 
     @Test
     fun `asking a question returns an answer`() =
-        coroutinesTestRule.testDispatcher.runBlockingTest {
+        testDispatcher.runBlockingTest {
             val mockQuestionInterface = Mockito.mock(QuestionInterface::class.java)
             Mockito.`when`(mockQuestionInterface.getAnswer()).thenReturn("Yes")
             val repository = QuestionRepository(
                 mockQuestionInterface,
-                coroutinesTestRule.testDispatcher,
-                coroutinesTestRule.testDispatcher
+                contextProvider
             )
             val subject = MyViewModel(repository)
 
@@ -62,13 +65,12 @@ class MyViewModelTest {
 
 
     @Test
-    fun `return an answer stops loading`() = coroutinesTestRule.testDispatcher.runBlockingTest {
+    fun `return an answer stops loading`() = testDispatcher.runBlockingTest {
         val mockQuestionInterface = Mockito.mock(QuestionInterface::class.java)
         Mockito.`when`(mockQuestionInterface.getAnswer()).thenReturn("Yes")
         val repository = QuestionRepository(
             mockQuestionInterface,
-            coroutinesTestRule.testDispatcher,
-            coroutinesTestRule.testDispatcher
+            contextProvider
         )
         val subject = MyViewModel(repository)
 
@@ -79,13 +81,12 @@ class MyViewModelTest {
 
     @Test
     fun `🚀 asking a real question returns an answer (no delay)`() =
-        coroutinesTestRule.testDispatcher.runBlockingTest {
+        testDispatcher.runBlockingTest {
             pauseDispatcher {
 
                 val repository = QuestionRepository(
                     QuestionNetworkFake,
-                    coroutinesTestRule.testDispatcher,
-                    coroutinesTestRule.testDispatcher
+                    contextProvider
                 )
                 val subject = MyViewModel(repository)
 
