@@ -11,7 +11,7 @@ import net.maiatoday.hello8ball.util.isPrime
  * live data.
  */
 class QuestionRepository(
-    val network: QuestionInterface,
+    val eightBall: QuestionInterface,
     val contextProvider:DispatcherProvider = DispatcherProvider()
 ) {
     private val _answer: MutableLiveData<String> by lazy {
@@ -38,7 +38,7 @@ class QuestionRepository(
             }
         } else {
             withContext(contextProvider.Default) {
-                newAnswer = network.getAnswer()
+                newAnswer = eightBall.getAnswer()
             }
         }
         return newAnswer

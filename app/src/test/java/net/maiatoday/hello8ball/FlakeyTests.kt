@@ -29,7 +29,7 @@ class FlakeyTests {
         val subject = MyViewModel(repository)
 
         subject.fetchAnswer("hello world")
-        delay(100)
+        delay(1000)
 
         Truth.assertThat(subject.isloading.getValueForTest()).isTrue()
     }
@@ -42,7 +42,7 @@ class FlakeyTests {
         val subject = MyViewModel(repository)
 
         subject.fetchAnswer("hello world")
-        //delay(10)
+      //  delay(1000)
 
         Truth.assertThat(subject.isloading.getValueForTest()).isFalse()
     }

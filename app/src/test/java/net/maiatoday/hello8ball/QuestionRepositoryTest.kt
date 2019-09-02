@@ -53,11 +53,11 @@ class QuestionRepositoryTest {
 
     @Test
     fun `🚀 should return answer from fake network (no delay)`() = testDispatcher.runBlockingTest  {
-        val subject = QuestionRepository(QuestionNetworkFake, contextProvider)
+        val subject = QuestionRepository(QuestionEightBall, contextProvider)
 
         val answer = subject.ponder("Any question")
 
-        assertThat(answer).isIn(QuestionNetworkFake.answers)
+        assertThat(answer).isIn(QuestionEightBall.answers)
     }
 
 }

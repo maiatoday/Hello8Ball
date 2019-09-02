@@ -85,14 +85,14 @@ class MyViewModelTest {
             pauseDispatcher {
 
                 val repository = QuestionRepository(
-                    QuestionNetworkFake,
+                    QuestionEightBall,
                     contextProvider
                 )
                 val subject = MyViewModel(repository)
 
                 subject.fetchAnswer("hello world")
                 advanceTimeBy(5000)
-                assertThat(subject.answer.getValueForTest()).isIn(QuestionNetworkFake.answers)
+                assertThat(subject.answer.getValueForTest()).isIn(QuestionEightBall.answers)
             }
         }
 

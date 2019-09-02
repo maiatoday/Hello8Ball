@@ -1,7 +1,6 @@
 package net.maiatoday.hello8ball
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
@@ -20,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        val repository = QuestionRepository(QuestionNetworkFake)
+        val repository = QuestionRepository(QuestionEightBall)
         val model = ViewModelProviders
             .of(this, MyViewModel.FACTORY(repository))
             .get(MyViewModel::class.java)

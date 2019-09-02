@@ -2,7 +2,7 @@ package net.maiatoday.hello8ball
 
 import kotlinx.coroutines.delay
 
-object QuestionNetworkFake : QuestionInterface {
+object QuestionEightBall : QuestionInterface {
 
     internal val answers: List<String> = listOf(
         "It is certain.",
@@ -28,7 +28,7 @@ object QuestionNetworkFake : QuestionInterface {
     )
 
     override suspend fun getAnswer(): String {
-        // simulate a network call here
+        // simulate a eightBall call here
         val randomMillis = (500 + 1000 * Math.random()).toLong()
         delay(randomMillis)
         return answers.shuffled().first()

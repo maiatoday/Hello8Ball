@@ -11,8 +11,8 @@ class QuestionNetworkFakeTest {
     @ExperimentalCoroutinesApi
     @Test
     fun `🚀 should return valid answer (no delay)`() = runBlockingTest  {
-        val answer = QuestionNetworkFake.getAnswer()
-        assertThat(answer).isIn(QuestionNetworkFake.answers)
+        val answer = QuestionEightBall.getAnswer()
+        assertThat(answer).isIn(QuestionEightBall.answers)
     }
 
 }

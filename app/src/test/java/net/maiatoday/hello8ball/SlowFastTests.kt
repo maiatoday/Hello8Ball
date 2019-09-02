@@ -8,10 +8,11 @@ import kotlinx.coroutines.test.runBlockingTest
 import net.maiatoday.hello8ball.testutil.CoroutinesTestRule
 import net.maiatoday.hello8ball.testutil.TestDispatcherProvider
 import net.maiatoday.hello8ball.testutil.getValueForTest
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 
-//@Ignore
+@Ignore
 class SlowFastTests {
 
     // Set the main coroutines dispatcher for unit testing.
@@ -28,25 +29,25 @@ class SlowFastTests {
 
     @Test
     fun `☠️ should return valid answer (delay)`() = runBlocking {
-        val answer = QuestionNetworkFake.getAnswer()
+        val answer = QuestionEightBall.getAnswer()
 
-        assertThat(answer).isIn(QuestionNetworkFake.answers)
+        assertThat(answer).isIn(QuestionEightBall.answers)
     }
 
     @Test
     fun `🚀 should return valid answer (no delay)`() = runBlockingTest {
-        val answer = QuestionNetworkFake.getAnswer()
-        assertThat(answer).isIn(QuestionNetworkFake.answers)
+        val answer = QuestionEightBall.getAnswer()
+        assertThat(answer).isIn(QuestionEightBall.answers)
     }
 
     @Test
     fun `☠️ asking a real question returns an answer (delay)`() = runBlocking {
-        val repository = QuestionRepository(QuestionNetworkFake)
+        val repository = QuestionRepository(QuestionEightBall)
         val subject = MyViewModel(repository)
 
         subject.fetchAnswer("hello world")
         delay(3000)
-        assertThat(subject.answer.getValueForTest()).isIn(QuestionNetworkFake.answers)
+        assertThat(subject.answer.getValueForTest()).isIn(QuestionEightBall.answers)
     }
 
     @Test
@@ -55,37 +56,37 @@ class SlowFastTests {
             pauseDispatcher {
 
                 val repository = QuestionRepository(
-                    QuestionNetworkFake,
+                    QuestionEightBall,
                     contextProvider
                 )
                 val subject = MyViewModel(repository)
 
                 subject.fetchAnswer("hello world")
                 advanceTimeBy(5000)
-                assertThat(subject.answer.getValueForTest()).isIn(QuestionNetworkFake.answers)
+                assertThat(subject.answer.getValueForTest()).isIn(QuestionEightBall.answers)
             }
         }
 
     @Test
     fun `☠️ should return answer from fake network (delay)`() = runBlocking {
-        val subject = QuestionRepository(QuestionNetworkFake)
+        val subject = QuestionRepository(QuestionEightBall)
 
         val answer = subject.ponder("Any question")
 
-        assertThat(answer).isIn(QuestionNetworkFake.answers)
+        assertThat(answer).isIn(QuestionEightBall.answers)
     }
 
     @Test
     fun `🚀 should return answer from fake network (no delay)`() =
         coroutinesTestRule.testDispatcher.runBlockingTest {
             val subject = QuestionRepository(
-                QuestionNetworkFake,
+                QuestionEightBall,
                 contextProvider
             )
 
             val answer = subject.ponder("Any question")
 
-            assertThat(answer).isIn(QuestionNetworkFake.answers)
+            assertThat(answer).isIn(QuestionEightBall.answers)
         }
 
 }
