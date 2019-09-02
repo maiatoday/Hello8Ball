@@ -11,8 +11,10 @@ import net.maiatoday.hello8ball.util.isPrime
  * live data.
  */
 class QuestionRepository(
-    val eightBall: QuestionInterface,
-    val contextProvider:DispatcherProvider = DispatcherProvider()
+    val eightBall: QuestionInterface = QuestionEightBall,
+    val password: QuestionInterface = QuestionPassword(),
+    val synonym: QuestionInterface = QuestionSynonym(),
+    val contextProvider: DispatcherProvider = DispatcherProvider()
 ) {
     private val _answer: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
@@ -27,12 +29,18 @@ class QuestionRepository(
     suspend fun ponder(question: String): String {
         var newAnswer = ""
         val possibleNumber: Int? = question.toIntOrNull()
-        if (question.contains("life") &&
-            question.contains("universe")
-        ) {
+        if (question.toLowerCase().contains("password")) {
+            withContext(contextProvider.IO) {
+                newAnswer = password.getAnswer()
+            }
+        } else if (question.isNotEmpty() && !question.contains(" ") && possibleNumber == null) {
+            withContext(contextProvider.IO) {
+                newAnswer = synonym.getAnswer(question)
+            }
+        } else if (question.contains("life") && question.contains("universe")) {
             newAnswer = "42"
         } else if (possibleNumber != null) {
-            withContext(contextProvider.IO) {
+            withContext(contextProvider.Default) {
                 val primeAnswer = if (isPrime(possibleNumber)) "" else " not"
                 newAnswer = "$possibleNumber is$primeAnswer Prime"
             }

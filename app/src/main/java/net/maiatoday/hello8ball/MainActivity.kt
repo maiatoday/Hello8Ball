@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        val repository = QuestionRepository(QuestionEightBall)
+        val repository = QuestionRepository()
         val model = ViewModelProviders
             .of(this, MyViewModel.FACTORY(repository))
             .get(MyViewModel::class.java)

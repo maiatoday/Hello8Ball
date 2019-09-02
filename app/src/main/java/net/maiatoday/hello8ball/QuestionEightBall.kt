@@ -27,7 +27,7 @@ object QuestionEightBall : QuestionInterface {
         "Very doubtful."
     )
 
-    override suspend fun getAnswer(): String {
+    override suspend fun getAnswer(question: String): String {
         // simulate a eightBall call here
         val randomMillis = (500 + 1000 * Math.random()).toLong()
         delay(randomMillis)
