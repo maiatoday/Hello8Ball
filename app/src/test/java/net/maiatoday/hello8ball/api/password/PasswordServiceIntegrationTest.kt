@@ -4,8 +4,10 @@ import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Test
 
+@Ignore
 class PasswordServiceIntegrationTest {
 
     private lateinit var passwordService: PasswordService

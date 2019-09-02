@@ -54,6 +54,8 @@ class MyViewModelTest {
             Mockito.`when`(mockQuestionInterface.getAnswer()).thenReturn("Yes")
             val repository = QuestionRepository(
                 mockQuestionInterface,
+                mockQuestionInterface,
+                mockQuestionInterface,
                 contextProvider
             )
             val subject = MyViewModel(repository)
@@ -70,6 +72,8 @@ class MyViewModelTest {
         Mockito.`when`(mockQuestionInterface.getAnswer()).thenReturn("Yes")
         val repository = QuestionRepository(
             mockQuestionInterface,
+            mockQuestionInterface,
+            mockQuestionInterface,
             contextProvider
         )
         val subject = MyViewModel(repository)
@@ -84,8 +88,11 @@ class MyViewModelTest {
         testDispatcher.runBlockingTest {
             pauseDispatcher {
 
+                val mockQuestionInterface = Mockito.mock(QuestionInterface::class.java)
                 val repository = QuestionRepository(
                     QuestionEightBall,
+                    mockQuestionInterface,
+                    mockQuestionInterface,
                     contextProvider
                 )
                 val subject = MyViewModel(repository)

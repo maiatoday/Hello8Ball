@@ -55,10 +55,7 @@ class SlowFastTests {
         coroutinesTestRule.testDispatcher.runBlockingTest {
             pauseDispatcher {
 
-                val repository = QuestionRepository(
-                    QuestionEightBall,
-                    contextProvider
-                )
+                val repository = QuestionRepository(contextProvider = contextProvider)
                 val subject = MyViewModel(repository)
 
                 subject.fetchAnswer("hello world")
@@ -79,10 +76,7 @@ class SlowFastTests {
     @Test
     fun `🚀 should return answer from fake network (no delay)`() =
         coroutinesTestRule.testDispatcher.runBlockingTest {
-            val subject = QuestionRepository(
-                QuestionEightBall,
-                contextProvider
-            )
+            val subject = QuestionRepository(contextProvider = contextProvider)
 
             val answer = subject.ponder("Any question")
 
