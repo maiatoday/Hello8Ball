@@ -4,6 +4,7 @@ import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterF
 import kotlinx.coroutines.Deferred
 import net.maiatoday.hello8ball.BuildConfig
 import net.maiatoday.hello8ball.api.synonym.SynonymResponse
+import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -24,13 +25,13 @@ interface PasswordService {
         private lateinit var retrofit: Retrofit
         private var baseUrl = "https://www.passwordrandom.com/"
         val instance: PasswordService by lazy {
-            passwordService(baseUrl)
+            passwordService(HttpUrl.get(baseUrl))
         }
 
         /**
          * static method to initialise the http client and retrofit class
          */
-        fun passwordService(url: String): PasswordService {
+        fun passwordService(url: HttpUrl): PasswordService {
             val logging = HttpLoggingInterceptor()
             logging.level = if (BuildConfig.DEBUG)
                 HttpLoggingInterceptor.Level.BODY

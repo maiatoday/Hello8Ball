@@ -4,6 +4,7 @@ import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterF
 import kotlinx.coroutines.Deferred
 import net.maiatoday.hello8ball.BuildConfig
 import net.maiatoday.hello8ball.api.password.PasswordService
+import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -26,13 +27,13 @@ interface SynonymService {
         private lateinit var retrofit: Retrofit
         private var baseUrl = "https://wordsapiv1.p.rapidapi.com/"
         val instance: SynonymService by lazy {
-            synonymService(baseUrl)
+            synonymService(HttpUrl.get(baseUrl))
         }
 
         /**
          * static method to initialise the http client and retrofit class
          */
-        fun synonymService(url: String): SynonymService {
+        fun synonymService(url: HttpUrl): SynonymService {
             val logging = HttpLoggingInterceptor()
             logging.level = if (BuildConfig.DEBUG)
                 HttpLoggingInterceptor.Level.BODY
