@@ -12,6 +12,6 @@ class TestDispatcherProvider(val testContext: CoroutineDispatcher) :
     override val IO: CoroutineDispatcher
         get() = testContext
 
-    override val Default:CoroutineDispatcher
+    override val Default: CoroutineDispatcher
         get() = testContext
 }

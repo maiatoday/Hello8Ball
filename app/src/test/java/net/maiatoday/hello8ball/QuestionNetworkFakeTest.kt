@@ -10,7 +10,7 @@ class QuestionNetworkFakeTest {
 
     @ExperimentalCoroutinesApi
     @Test
-    fun `🚀 should return valid answer (no delay)`() = runBlockingTest  {
+    fun `🚀 should return valid answer (no delay)`() = runBlockingTest {
         val answer = QuestionEightBall.getAnswer()
         assertThat(answer).isIn(QuestionEightBall.answers)
     }

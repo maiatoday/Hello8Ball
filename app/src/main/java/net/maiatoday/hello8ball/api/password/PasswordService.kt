@@ -14,9 +14,11 @@ import retrofit2.http.Query
 
 interface PasswordService {
     @GET("query")
-    fun getPasswordAsync(@Query("command") command: String="password",
-                         @Query("format") format: String="json",
-                         @Query("count") count: Int=1): Deferred<PasswordResponse>
+    fun getPasswordAsync(
+        @Query("command") command: String = "password",
+        @Query("format") format: String = "json",
+        @Query("count") count: Int = 1
+    ): Deferred<PasswordResponse>
 
     companion object {
         private lateinit var retrofit: Retrofit

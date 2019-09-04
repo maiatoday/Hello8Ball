@@ -2,6 +2,7 @@ package net.maiatoday.hello8ball
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import net.maiatoday.hello8ball.testutil.CoroutinesTestRule
@@ -11,7 +12,8 @@ import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito
 
-@Ignore
+@ExperimentalCoroutinesApi
+@Ignore("flakey tests for demo")
 class FlakeyTests {
     // Set the main coroutines dispatcher for unit testing.
     // We are setting the above-defined testDispatcher as the Main thread dispatcher.
@@ -42,7 +44,7 @@ class FlakeyTests {
         val subject = MyViewModel(repository)
 
         subject.fetchAnswer("hello world")
-      //  delay(1000)
+        //  delay(1000)
 
         Truth.assertThat(subject.isloading.getValueForTest()).isFalse()
     }

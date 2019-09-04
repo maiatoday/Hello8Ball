@@ -2,6 +2,7 @@ package net.maiatoday.hello8ball
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth.assertThat
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
@@ -12,7 +13,8 @@ import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 
-@Ignore
+@ExperimentalCoroutinesApi
+//@Ignore("Slow and fast tests for demo")
 class SlowFastTests {
 
     // Set the main coroutines dispatcher for unit testing.

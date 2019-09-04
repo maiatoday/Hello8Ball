@@ -33,7 +33,7 @@ class QuestionRepositoryTest {
     }
 
     @Test
-    fun `should detect non prime number`() = runBlocking  {
+    fun `should detect non prime number`() = runBlocking {
         val subject = QuestionRepository(mockQuestionInterface)
 
         val answer = subject.ponder("774")
@@ -42,7 +42,7 @@ class QuestionRepositoryTest {
     }
 
     @Test
-    fun `should return answer from network`() = runBlocking  {
+    fun `should return answer from network`() = runBlocking {
         Mockito.`when`(mockQuestionInterface.getAnswer()).thenReturn("Yes")
         val subject = QuestionRepository(mockQuestionInterface)
 
@@ -52,7 +52,7 @@ class QuestionRepositoryTest {
     }
 
     @Test
-    fun `🚀 should return answer from fake network (no delay)`() = testDispatcher.runBlockingTest  {
+    fun `🚀 should return answer from fake network (no delay)`() = testDispatcher.runBlockingTest {
         val subject = QuestionRepository(contextProvider = contextProvider)
 
         val answer = subject.ponder("Any question")

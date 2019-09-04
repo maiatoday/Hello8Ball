@@ -17,8 +17,10 @@ interface SynonymService {
         "x-rapidapi-host: wordsapiv1.p.rapidapi.com"
     )
     @GET("words/{word}/synonyms")
-    fun getSynonymAsync(@Path("word") word: String,
-                        @Header("x-rapidapi-key") apiKey:String = BuildConfig.WORDS_API_KEY): Deferred<SynonymResponse>
+    fun getSynonymAsync(
+        @Path("word") word: String,
+        @Header("x-rapidapi-key") apiKey: String = BuildConfig.WORDS_API_KEY
+    ): Deferred<SynonymResponse>
 
     companion object {
         private lateinit var retrofit: Retrofit
