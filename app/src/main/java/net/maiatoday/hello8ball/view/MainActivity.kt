@@ -1,4 +1,4 @@
-package net.maiatoday.hello8ball
+package net.maiatoday.hello8ball.view
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +11,8 @@ import androidx.lifecycle.ViewModelProviders
 
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import net.maiatoday.hello8ball.question.QuestionRepository
+import net.maiatoday.hello8ball.R
 
 class MainActivity : AppCompatActivity() {
 

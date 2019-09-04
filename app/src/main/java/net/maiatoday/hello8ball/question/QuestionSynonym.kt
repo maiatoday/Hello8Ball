@@ -1,10 +1,11 @@
-package net.maiatoday.hello8ball
+package net.maiatoday.hello8ball.question
 
 import net.maiatoday.hello8ball.api.synonym.SynonymService
 
-class QuestionSynonym : QuestionInterface {
+class QuestionSynonym(val service: SynonymService = SynonymService.instance) :
+    QuestionInterface {
     override suspend fun getAnswer(question: String): String {
-        val response = SynonymService.instance.getSynonymAsync(question).await()
+        val response = service.getSynonymAsync(question).await()
         val synonyms = response.synonyms
         return synonyms.shuffled().first()
     }

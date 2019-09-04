@@ -1,4 +1,4 @@
-package net.maiatoday.hello8ball
+package net.maiatoday.hello8ball.view
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import net.maiatoday.hello8ball.question.QuestionRepository
 import net.maiatoday.hello8ball.util.singleArgViewModelFactory
 
 class MyViewModel(private val repository: QuestionRepository) : ViewModel() {

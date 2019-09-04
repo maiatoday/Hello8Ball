@@ -1,9 +1,12 @@
-package net.maiatoday.hello8ball
+package net.maiatoday.hello8ball.view
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
+import net.maiatoday.hello8ball.question.QuestionEightBall
+import net.maiatoday.hello8ball.question.QuestionInterface
+import net.maiatoday.hello8ball.question.QuestionRepository
 import net.maiatoday.hello8ball.testutil.CoroutinesTestRule
 import net.maiatoday.hello8ball.testutil.TestDispatcherProvider
 import net.maiatoday.hello8ball.testutil.getValueForTest

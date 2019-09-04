@@ -1,4 +1,4 @@
-package net.maiatoday.hello8ball
+package net.maiatoday.hello8ball.question
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth
@@ -7,6 +7,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import net.maiatoday.hello8ball.testutil.CoroutinesTestRule
 import net.maiatoday.hello8ball.testutil.getValueForTest
+import net.maiatoday.hello8ball.view.MyViewModel
 import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test

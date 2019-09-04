@@ -1,4 +1,4 @@
-package net.maiatoday.hello8ball
+package net.maiatoday.hello8ball.question
 
 import kotlinx.coroutines.delay
 

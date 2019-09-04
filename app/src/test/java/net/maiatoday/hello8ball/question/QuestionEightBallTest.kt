@@ -1,12 +1,12 @@
-package net.maiatoday.hello8ball
+package net.maiatoday.hello8ball.question
 
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
+import net.maiatoday.hello8ball.question.QuestionEightBall
 import org.junit.Test
 
-
-class QuestionNetworkFakeTest {
+class QuestionEightBallTest {
 
     @ExperimentalCoroutinesApi
     @Test

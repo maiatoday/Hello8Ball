@@ -1,4 +1,4 @@
-package net.maiatoday.hello8ball
+package net.maiatoday.hello8ball.question
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth.assertThat
@@ -6,15 +6,18 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
+import net.maiatoday.hello8ball.question.QuestionEightBall
+import net.maiatoday.hello8ball.question.QuestionRepository
 import net.maiatoday.hello8ball.testutil.CoroutinesTestRule
 import net.maiatoday.hello8ball.testutil.TestDispatcherProvider
 import net.maiatoday.hello8ball.testutil.getValueForTest
+import net.maiatoday.hello8ball.view.MyViewModel
 import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
-//@Ignore("Slow and fast tests for demo")
+@Ignore("Slow and fast tests for demo")
 class SlowFastTests {
 
     // Set the main coroutines dispatcher for unit testing.
@@ -57,7 +60,8 @@ class SlowFastTests {
         coroutinesTestRule.testDispatcher.runBlockingTest {
             pauseDispatcher {
 
-                val repository = QuestionRepository(contextProvider = contextProvider)
+                val repository =
+                    QuestionRepository(contextProvider = contextProvider)
                 val subject = MyViewModel(repository)
 
                 subject.fetchAnswer("hello world")
@@ -67,7 +71,7 @@ class SlowFastTests {
         }
 
     @Test
-    fun `☠️ should return answer from fake network (delay)`() = runBlocking {
+    fun `☠️ should return answer from 🎱 (delay)`() = runBlocking {
         val subject = QuestionRepository(QuestionEightBall)
 
         val answer = subject.ponder("Any question")
@@ -76,9 +80,10 @@ class SlowFastTests {
     }
 
     @Test
-    fun `🚀 should return answer from fake network (no delay)`() =
+    fun `🚀 should return answer from 🎱 (no delay)`() =
         coroutinesTestRule.testDispatcher.runBlockingTest {
-            val subject = QuestionRepository(contextProvider = contextProvider)
+            val subject =
+                QuestionRepository(contextProvider = contextProvider)
 
             val answer = subject.ponder("Any question")
 
