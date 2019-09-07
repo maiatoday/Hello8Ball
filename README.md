@@ -2,7 +2,9 @@
 
 <img src="./ball.svg" width="100">
 
-A Magic 8 Ball app to use a sampler to explore Kotlin testing. The app works as a magic 8 ball. It can also generate passwords, find a synonym for a word and check if a number is prime or not. There are [matching slides](slides/TestingKotlinCoroutines.pdf) for a presentation at [Kotlin Everywhere 2019 in Johannesburg](https://www.kotlin-everywhere.co.za/).
+A Magic 8 Ball app to use a sampler to explore Kotlin coroutine testing in an Android setting. The app works as a magic 8 ball. It can also generate passwords, find a synonym for a word and check if a number is prime or not. There are [matching slides](slides/TestingKotlinCoroutines.pdf) for a presentation at [Kotlin Everywhere 2019 in Johannesburg](https://www.kotlin-everywhere.co.za/).
+
+The app uses the [kotlinx-coroutine-test](https://github.com/Kotlin/kotlinx.coroutines/tree/master/kotlinx-coroutines-test) library and references [this code-lab](https://github.com/googlecodelabs/kotlin-coroutines).
 
 ## How to run
 
