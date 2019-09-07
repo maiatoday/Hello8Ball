@@ -7,7 +7,7 @@ import org.junit.Before
 import org.junit.Ignore
 import org.junit.Test
 
-@Ignore
+@Ignore("Integration tests hit the real api")
 class PasswordServiceIntegrationTest {
 
     private lateinit var passwordService: PasswordService

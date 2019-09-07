@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.withContext
 import net.maiatoday.hello8ball.util.DispatcherProvider
 import net.maiatoday.hello8ball.util.isPrime
+import java.util.*
 
 /**
  * The QuestionRepository answers questions as it sees fit. It provides the answer in the answer
@@ -54,7 +55,7 @@ class QuestionRepository(
 fun parseQuestion(question: String): QuestionType =
     when {
         (question.toIntOrNull() != null) -> QuestionType.PRIME
-        (question.toLowerCase().contains("password")) -> QuestionType.PASSWORD
+        (question.toLowerCase(Locale.getDefault()).contains("password")) -> QuestionType.PASSWORD
         (question.isNotEmpty() && !question.contains(" ")) -> QuestionType.SYNONYM
         (question.contains("life") && question.contains("universe")) -> QuestionType.BASIC
         else -> QuestionType.OTHER
