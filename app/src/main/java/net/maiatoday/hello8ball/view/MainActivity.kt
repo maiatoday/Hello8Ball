@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity(), CopyHandler {
             model.fetchAnswer(question.text.toString())
         }
 
-        question.setOnEditorActionListener { v, actionId, event ->
+        question.setOnEditorActionListener { _, actionId, _ ->
             return@setOnEditorActionListener when (actionId) {
                 EditorInfo.IME_ACTION_DONE -> {
                     model.fetchAnswer(question.text.toString())
@@ -84,6 +84,7 @@ class MainActivity : AppCompatActivity(), CopyHandler {
 
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun copyQuestion(view : View) {
         val model = ViewModelProviders.of(this)[MyViewModel::class.java]
         model.onCopy()
