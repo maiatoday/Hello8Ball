@@ -1,6 +1,6 @@
 # Hello8Ball
 
-![Hello 8 Ball](./ball.svg)
+<img src="./ball.svg" width="100">
 
 A Magic 8 Ball app to use a sampler to explore Kotlin testing. The app works as a magic 8 ball.
 
@@ -25,4 +25,4 @@ Run the tests in Android studio or use the command line.
 
 `./gradlew connectedAndroidTest`
 
-![](screenshots/Screenshot_1566145786.png)
+<img src="screenshots/Screenshot_1566145786.png" width="256">
