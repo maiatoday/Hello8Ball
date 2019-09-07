@@ -1,20 +1,23 @@
 package net.maiatoday.hello8ball.view
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
-import net.maiatoday.hello8ball.question.QuestionRepository
 import net.maiatoday.hello8ball.R
+import net.maiatoday.hello8ball.question.QuestionRepository
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), CopyHandler {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         val model = ViewModelProviders
             .of(this, MyViewModel.FACTORY(repository))
             .get(MyViewModel::class.java)
-
+        model.copyHandler = this
         model.answer.observe(this, Observer<String> { newAnswer ->
             answer.text = newAnswer
         })
@@ -68,4 +71,22 @@ class MainActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
+    override fun copy(item: String) {
+        val clipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clipData = ClipData.newPlainText("Source Text", item)
+        clipboardManager.primaryClip = clipData
+        Snackbar.make(
+            content_main,
+            getString(R.string.copy_snack, item),
+            Snackbar.LENGTH_SHORT
+        ).show()
+
+    }
+
+    fun copyQuestion(view : View) {
+        val model = ViewModelProviders.of(this)[MyViewModel::class.java]
+        model.onCopy()
+    }
+
 }

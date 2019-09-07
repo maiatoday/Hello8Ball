@@ -2,4 +2,5 @@
     <string name="app_name">Hello8Ball</string>
     <string name="action_settings">Settings</string>
   <string name="_8_ball">8 Ball</string>
+    <string name="copy_snack">Copied %s to the clipboard</string>
 </resources>

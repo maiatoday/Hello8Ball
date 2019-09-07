@@ -24,6 +24,7 @@ class MyViewModel(private val repository: QuestionRepository) : ViewModel() {
      * Answer from the repository
      */
     val answer = repository.answer
+    var copyHandler: CopyHandler? = null
 
     private val _isLoading: MutableLiveData<Boolean> by lazy {
         val liveData = MutableLiveData<Boolean>()
@@ -40,6 +41,12 @@ class MyViewModel(private val repository: QuestionRepository) : ViewModel() {
     fun fetchAnswer(question: String) {
         launchDataLoad {
             repository.getAnswer(question)
+        }
+    }
+
+    fun onCopy() {
+        answer.value?.let {
+            copyHandler?.copy(it)
         }
     }
 
@@ -64,3 +71,8 @@ class MyViewModel(private val repository: QuestionRepository) : ViewModel() {
         }
     }
 }
+
+interface CopyHandler {
+    fun copy(item: String)
+}
+
