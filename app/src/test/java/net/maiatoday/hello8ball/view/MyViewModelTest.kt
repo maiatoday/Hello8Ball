@@ -8,6 +8,7 @@ import net.maiatoday.hello8ball.question.QuestionEightBall
 import net.maiatoday.hello8ball.question.QuestionInterface
 import net.maiatoday.hello8ball.question.QuestionRepository
 import net.maiatoday.hello8ball.testutil.CoroutinesTestRule
+import net.maiatoday.hello8ball.testutil.SlowFakeQuestion
 import net.maiatoday.hello8ball.testutil.TestDispatcherProvider
 import net.maiatoday.hello8ball.testutil.getValueForTest
 import org.junit.Rule
@@ -40,15 +41,30 @@ class MyViewModelTest {
 
 
     @Test
-    fun `asking a question sets is loading`() {
-        val mockQuestionInterface = Mockito.mock(QuestionInterface::class.java)
-        val repository = QuestionRepository(mockQuestionInterface)
-        val subject = MyViewModel(repository)
+    fun `asking a question sets is loading ⚡️🕥`() =
+        testDispatcher.runBlockingTest {
+            pauseDispatcher {
 
-        subject.fetchAnswer("hello world")
+                // setup fake that responds slowly
+                val fakeInterface: QuestionInterface = SlowFakeQuestion(5000)
+                val repository = QuestionRepository(
+                    eightBall = fakeInterface,
+                    contextProvider = contextProvider
+                )
 
-        assertThat(subject.isloading.getValueForTest()).isTrue()
-    }
+                // setup subject
+                val subject = MyViewModel(repository)
+                subject.fetchAnswer("hello world")
+
+                // control time and test
+                advanceTimeBy(1)
+                assertThat(subject.isloading.getValueForTest()).isTrue()
+                advanceTimeBy(1000)
+                assertThat(subject.isloading.getValueForTest()).isTrue()
+                advanceTimeBy(4000)
+                assertThat(subject.isloading.getValueForTest()).isFalse()
+            }
+        }
 
     @Test
     fun `asking a question returns an answer`() =

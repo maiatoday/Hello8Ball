@@ -49,4 +49,16 @@ class FlakeyTests {
 
         Truth.assertThat(subject.isloading.getValueForTest()).isFalse()
     }
+
+    @Test
+    fun `asking a question sets is loading (flakey)`() {
+        val mockQuestionInterface = Mockito.mock(QuestionInterface::class.java)
+        val repository = QuestionRepository(mockQuestionInterface)
+        val subject = MyViewModel(repository)
+
+        subject.fetchAnswer("hello world")
+
+        Truth.assertThat(subject.isloading.getValueForTest()).isTrue()
+
+    }
 }
