@@ -6,6 +6,8 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
+apply from: 'jacoco.gradle'
+
 apply from: "secrets.gradle"
 
 android {

@@ -14,6 +14,7 @@ import net.maiatoday.hello8ball.testutil.getValueForTest
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito
+import org.mockito.Mockito.verify
 
 @ExperimentalCoroutinesApi
 class MyViewModelTest {
@@ -123,5 +124,44 @@ class MyViewModelTest {
             }
         }
 
+    @Test
+    fun `clicking onCopy calls the copy handler with the answer`()  =
+        testDispatcher.runBlockingTest {
+            pauseDispatcher {
+                val mockCopyHandler = Mockito.mock(CopyHandler::class.java)
+                val fakeInterface: QuestionInterface = SlowFakeAnswer(1, "copycopy")
+                val repository = QuestionRepository(
+                    eightBall = fakeInterface,
+                    contextProvider = contextProvider
+                )
+                val subject = MyViewModel(repository)
+                subject.copyHandler = mockCopyHandler
+
+                subject.fetchAnswer("hello world")
+                advanceTimeBy(1)
+
+                subject.onCopy()
+
+                verify(mockCopyHandler).copy("copycopy")
+            }
+        }
+
+    @Test
+    fun `clicking onCopy with no copy handler does nothing`()  =
+        testDispatcher.runBlockingTest {
+            pauseDispatcher {
+                val fakeInterface: QuestionInterface = SlowFakeAnswer(1, "copycopy")
+                val repository = QuestionRepository(
+                    eightBall = fakeInterface,
+                    contextProvider = contextProvider
+                )
+                val subject = MyViewModel(repository)
+
+                subject.fetchAnswer("hello world")
+                advanceTimeBy(1)
+
+                subject.onCopy()
+            }
+        }
 
 }

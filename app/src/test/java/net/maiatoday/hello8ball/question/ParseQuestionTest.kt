@@ -16,6 +16,8 @@ class ParseQuestionTest(val question: String, val questionType: QuestionType) {
             arrayOf("word", QuestionType.SYNONYM),
             arrayOf("supercalifragilistixexpialidocious", QuestionType.SYNONYM),
             arrayOf("a", QuestionType.SYNONYM),
+            arrayOf("how is life with dogs 🐶?", QuestionType.OTHER),
+            arrayOf("Is the universe expanding 🌟?", QuestionType.OTHER),
             arrayOf("771", QuestionType.PRIME),
             arrayOf("life the universe and everything", QuestionType.BASIC),
             arrayOf("", QuestionType.OTHER)
