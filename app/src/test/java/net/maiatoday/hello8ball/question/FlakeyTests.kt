@@ -2,6 +2,7 @@ package net.maiatoday.hello8ball.question
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
@@ -32,9 +33,9 @@ class FlakeyTests {
         val subject = MyViewModel(repository)
 
         subject.fetchAnswer("hello world")
-        delay(1000)
+        delay(1000) // … the test might fail ¯\_(ツ)_/¯
 
-        Truth.assertThat(subject.isloading.getValueForTest()).isTrue()
+        assertThat(subject.isloading.getValueForTest()).isTrue()
     }
 
     @Test
@@ -47,7 +48,7 @@ class FlakeyTests {
         subject.fetchAnswer("hello world")
         //  delay(1000)
 
-        Truth.assertThat(subject.isloading.getValueForTest()).isFalse()
+        assertThat(subject.isloading.getValueForTest()).isFalse()
     }
 
     @Test
@@ -58,7 +59,7 @@ class FlakeyTests {
 
         subject.fetchAnswer("hello world")
 
-        Truth.assertThat(subject.isloading.getValueForTest()).isTrue()
+        assertThat(subject.isloading.getValueForTest()).isTrue()
 
     }
 }

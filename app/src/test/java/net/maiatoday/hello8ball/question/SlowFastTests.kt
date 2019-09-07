@@ -33,20 +33,19 @@ class SlowFastTests {
     val contextProvider = TestDispatcherProvider(testDispatcher)
 
     @Test
-    fun `☠️ should return valid answer (delay)`() = runBlocking {
-        val answer = QuestionEightBall.getAnswer()
-
-        assertThat(answer).isIn(QuestionEightBall.answers)
-    }
-
-    @Test
-    fun `🚀 should return valid answer (no delay)`() = runBlockingTest {
+    fun `🐢️ should return valid answer (delay)`() = runBlocking {
         val answer = QuestionEightBall.getAnswer()
         assertThat(answer).isIn(QuestionEightBall.answers)
     }
 
     @Test
-    fun `☠️ asking a real question returns an answer (delay)`() = runBlocking {
+    fun `🐰 should return valid answer (no delay)`() = runBlockingTest {
+        val answer = QuestionEightBall.getAnswer()
+        assertThat(answer).isIn(QuestionEightBall.answers)
+    }
+
+    @Test
+    fun `🐢️ asking a real question returns an answer (delay)`() = runBlocking {
         val repository = QuestionRepository(QuestionEightBall)
         val subject = MyViewModel(repository)
 
@@ -56,7 +55,7 @@ class SlowFastTests {
     }
 
     @Test
-    fun `🚀 asking a real question returns an answer (no delay)`() =
+    fun `🐰 asking a real question returns an answer (no delay)`() =
         coroutinesTestRule.testDispatcher.runBlockingTest {
             pauseDispatcher {
 
@@ -71,7 +70,7 @@ class SlowFastTests {
         }
 
     @Test
-    fun `☠️ should return answer from 🎱 (delay)`() = runBlocking {
+    fun `🐢️ should return answer from 🎱 (delay)`() = runBlocking {
         val subject = QuestionRepository(QuestionEightBall)
 
         val answer = subject.ponder("Any question")
@@ -80,7 +79,7 @@ class SlowFastTests {
     }
 
     @Test
-    fun `🚀 should return answer from 🎱 (no delay)`() =
+    fun `🐰 should return answer from 🎱 (no delay)`() =
         coroutinesTestRule.testDispatcher.runBlockingTest {
             val subject =
                 QuestionRepository(contextProvider = contextProvider)
