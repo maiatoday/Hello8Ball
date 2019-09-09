@@ -29,6 +29,13 @@ class QuestionSynonymTest {
     }
 
     @Test
+    fun `🐱 valid but empty response 202`() = runBlocking {
+        server.enqueue(MockResponse().setBody(SYNONYM_EMPTY_FIXTURE))
+        val answer = subject.getAnswer("sitar")
+        assertThat(answer).isEqualTo("no synonym for sitar")
+    }
+
+    @Test
     fun `👹 bad response 404`() = runBlocking {
         server.enqueue(MockResponse().setResponseCode(404))
         val answer = subject.getAnswer("kitten")
@@ -47,5 +54,12 @@ const val SYNONYM_FIXTURE = """
     {
     "word":"kitten",
     "synonyms":["baby cat", "mitzi"]
+    }
+"""
+
+const val SYNONYM_EMPTY_FIXTURE = """
+    {
+    "word":"sitar",
+    "synonyms":[]
     }
 """

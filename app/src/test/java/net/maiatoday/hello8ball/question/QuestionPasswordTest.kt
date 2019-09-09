@@ -42,10 +42,24 @@ class QuestionPasswordTest {
             val answer = subject.getAnswer("password")
             assertThat(answer).isEqualTo("dragon123")
         }
+
+    @Test
+    fun `🐲 valid but empty response 202`() = runBlocking {
+        server.enqueue(MockResponse().setBody(PASSWORD_EMPTY_FIXTURE))
+        val answer = subject.getAnswer("password")
+        assertThat(answer).isEqualTo("Oops no password")
+    }
 }
 
 const val PASSWORD_FIXTURE = """
     {
     "char":["dragon123"]
+    }
+"""
+
+
+const val PASSWORD_EMPTY_FIXTURE = """
+    {
+    "char":[]
     }
 """

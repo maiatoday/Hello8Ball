@@ -10,7 +10,11 @@ class QuestionPassword(private val service: PasswordService = PasswordService.in
         return try {
             val response = service.getPasswordAsync().await()
             val passwords = response.char
-            passwords[0]
+            if (passwords.isNotEmpty()) {
+                passwords[0]
+            } else {
+                "Oops no password"
+            }
         } catch (e: HttpException) {
             "Oops no password"
         }

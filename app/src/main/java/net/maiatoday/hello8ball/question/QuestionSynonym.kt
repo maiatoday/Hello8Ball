@@ -9,7 +9,11 @@ class QuestionSynonym(val service: SynonymService = SynonymService.instance) :
         return try {
             val response = service.getSynonymAsync(question).await()
             val synonyms = response.synonyms
-            synonyms.shuffled().first()
+            if (synonyms.isNotEmpty()){
+                synonyms.shuffled().first()
+            } else {
+                "no synonym for $question"
+            }
         } catch (e: HttpException) {
             "no synonym for $question"
         }
