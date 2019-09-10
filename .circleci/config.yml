@@ -10,7 +10,9 @@ jobs:
       - checkout
       - run:
           name: Make secretsFile
-          command: cp app/secrets.gradle.template app/secrets.gradle
+          command: |
+            cp app/secrets.gradle.template app/secrets.gradle
+            sed -i "s/INSERT-API-KEY-HERE/$WORDS_API_KEY/g" app/secrets.gradle
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       #      - run:
