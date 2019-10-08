@@ -6,18 +6,16 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
-import net.maiatoday.hello8ball.question.QuestionEightBall
-import net.maiatoday.hello8ball.question.QuestionRepository
 import net.maiatoday.hello8ball.testutil.CoroutinesTestRule
 import net.maiatoday.hello8ball.testutil.TestDispatcherProvider
 import net.maiatoday.hello8ball.testutil.getValueForTest
 import net.maiatoday.hello8ball.view.MyViewModel
-import org.junit.Ignore
 import org.junit.Rule
-import org.junit.Test
+import org.junit.jupiter.api.Disabled
+import org.junit.jupiter.api.Test
 
 @ExperimentalCoroutinesApi
-@Ignore("Slow and fast tests for demo")
+@Disabled("Slow and fast tests for demo")
 class SlowFastTests {
 
     // Set the main coroutines dispatcher for unit testing.

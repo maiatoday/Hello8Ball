@@ -5,9 +5,9 @@ import kotlinx.coroutines.runBlocking
 import net.maiatoday.hello8ball.api.synonym.SynonymService
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
-import org.junit.Before
 import org.junit.Rule
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 class QuestionSynonymTest {
     @get:Rule
@@ -15,7 +15,7 @@ class QuestionSynonymTest {
     private lateinit var service: SynonymService
     private lateinit var subject: QuestionSynonym
 
-    @Before
+    @BeforeEach
     fun setUp() {
         service = SynonymService.synonymService(server.url("/"))
         subject = QuestionSynonym(service)

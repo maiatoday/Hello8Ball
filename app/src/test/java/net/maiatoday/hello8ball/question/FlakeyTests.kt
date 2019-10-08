@@ -1,7 +1,6 @@
 package net.maiatoday.hello8ball.question
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
@@ -9,13 +8,13 @@ import kotlinx.coroutines.runBlocking
 import net.maiatoday.hello8ball.testutil.CoroutinesTestRule
 import net.maiatoday.hello8ball.testutil.getValueForTest
 import net.maiatoday.hello8ball.view.MyViewModel
-import org.junit.Ignore
 import org.junit.Rule
-import org.junit.Test
+import org.junit.jupiter.api.Disabled
+import org.junit.jupiter.api.Test
 import org.mockito.Mockito
 
 @ExperimentalCoroutinesApi
-@Ignore("flakey tests for demo")
+@Disabled("flakey tests for demo")
 class FlakeyTests {
     // Set the main coroutines dispatcher for unit testing.
     // We are setting the above-defined testDispatcher as the Main thread dispatcher.

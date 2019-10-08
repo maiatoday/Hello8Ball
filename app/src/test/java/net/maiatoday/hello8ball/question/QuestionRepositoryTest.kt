@@ -2,13 +2,11 @@ package net.maiatoday.hello8ball.question
 
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
 import net.maiatoday.hello8ball.testutil.TestDispatcherProvider
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import org.mockito.Mockito
-import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
 
 @ExperimentalCoroutinesApi

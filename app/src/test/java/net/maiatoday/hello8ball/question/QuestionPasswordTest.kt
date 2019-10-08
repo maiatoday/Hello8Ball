@@ -1,14 +1,13 @@
 package net.maiatoday.hello8ball.question
 
-import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.runBlocking
 import net.maiatoday.hello8ball.api.password.PasswordService
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
-import org.junit.Before
 import org.junit.Rule
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 class QuestionPasswordTest {
     @get:Rule
@@ -16,7 +15,7 @@ class QuestionPasswordTest {
     private lateinit var service: PasswordService
     private lateinit var subject: QuestionPassword
 
-    @Before
+    @BeforeEach
     fun setUp() {
         service = PasswordService.passwordService(server.url("/"))
         subject = QuestionPassword(service)

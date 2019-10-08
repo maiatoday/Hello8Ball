@@ -3,9 +3,10 @@ package net.maiatoday.hello8ball.question
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
-import net.maiatoday.hello8ball.question.QuestionEightBall
-import org.junit.Test
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Test
 
+@DisplayName("Question 🎱 Test")
 class QuestionEightBallTest {
 
     @ExperimentalCoroutinesApi

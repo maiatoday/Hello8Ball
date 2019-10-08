@@ -2,22 +2,22 @@ package net.maiatoday.hello8ball.api.password
 
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.runBlocking
-import org.junit.After
-import org.junit.Before
-import org.junit.Ignore
-import org.junit.Test
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
+import org.junit.jupiter.api.Test
 
-@Ignore("Integration tests hit the real api")
+@Disabled("Integration tests hit the real api")
 class PasswordServiceIntegrationTest {
 
     private lateinit var passwordService: PasswordService
 
-    @Before
+    @BeforeEach
     fun setUp() {
         passwordService = PasswordService.instance
     }
 
-    @After
+    @AfterEach
     fun tearDown() {
     }
 
