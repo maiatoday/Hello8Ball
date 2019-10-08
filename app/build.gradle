@@ -23,7 +23,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
     lintOptions {
         lintConfig file("lint.xml")
         warningsAsErrors true
