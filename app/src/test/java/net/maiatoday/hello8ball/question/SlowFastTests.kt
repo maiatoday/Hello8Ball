@@ -1,35 +1,41 @@
 package net.maiatoday.hello8ball.question
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth.assertThat
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runBlockingTest
-import net.maiatoday.hello8ball.testutil.CoroutinesTestRule
+import kotlinx.coroutines.test.setMain
+import net.maiatoday.hello8ball.testutil.InstantExecutorExtension
 import net.maiatoday.hello8ball.testutil.TestDispatcherProvider
 import net.maiatoday.hello8ball.testutil.getValueForTest
 import net.maiatoday.hello8ball.view.MyViewModel
-import org.junit.Rule
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
 @ExperimentalCoroutinesApi
+@ExtendWith(InstantExecutorExtension::class)
 @Disabled("Slow and fast tests for demo")
 class SlowFastTests {
 
-    // Set the main coroutines dispatcher for unit testing.
-    // We are setting the above-defined testDispatcher as the Main thread dispatcher.
-    @get:Rule
-    var coroutinesTestRule = CoroutinesTestRule()
-
-    // Executes each task synchronously using Architecture Components.
-    @get:Rule
-    val instantTaskExecutorRule = InstantTaskExecutorRule()
-
-    val testDispatcher = coroutinesTestRule.testDispatcher
+    val testDispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
     val contextProvider = TestDispatcherProvider(testDispatcher)
+    @BeforeEach
+    fun setup() {
+        Dispatchers.setMain(testDispatcher)
+    }
 
+    @AfterEach
+    fun tearDown() {
+        Dispatchers.resetMain()
+        testDispatcher.cleanupTestCoroutines()
+    }
     @Test
     fun `🐢️ should return valid answer (delay)`() = runBlocking {
         val answer = QuestionEightBall.getAnswer()
@@ -54,7 +60,7 @@ class SlowFastTests {
 
     @Test
     fun `🐰 asking a real question returns an answer (no delay)`() =
-        coroutinesTestRule.testDispatcher.runBlockingTest {
+        testDispatcher.runBlockingTest {
             pauseDispatcher {
 
                 val repository =
@@ -78,7 +84,7 @@ class SlowFastTests {
 
     @Test
     fun `🐰 should return answer from 🎱 (no delay)`() =
-        coroutinesTestRule.testDispatcher.runBlockingTest {
+        testDispatcher.runBlockingTest {
             val subject =
                 QuestionRepository(contextProvider = contextProvider)
 

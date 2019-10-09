@@ -1,29 +1,21 @@
 package net.maiatoday.hello8ball.question
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
-import net.maiatoday.hello8ball.testutil.CoroutinesTestRule
+import net.maiatoday.hello8ball.testutil.InstantExecutorExtension
 import net.maiatoday.hello8ball.testutil.getValueForTest
 import net.maiatoday.hello8ball.view.MyViewModel
-import org.junit.Rule
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mockito
 
 @ExperimentalCoroutinesApi
+@ExtendWith(InstantExecutorExtension::class)
 @Disabled("flakey tests for demo")
 class FlakeyTests {
-    // Set the main coroutines dispatcher for unit testing.
-    // We are setting the above-defined testDispatcher as the Main thread dispatcher.
-    @get:Rule
-    var coroutinesTestRule = CoroutinesTestRule()
-
-    // Executes each task synchronously using Architecture Components.
-    @get:Rule
-    val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Test
     fun `asking a question sets is loading`() = runBlocking {

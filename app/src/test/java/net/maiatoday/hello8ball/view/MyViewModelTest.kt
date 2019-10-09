@@ -1,35 +1,40 @@
 package net.maiatoday.hello8ball.view
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth.assertThat
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.setMain
 import net.maiatoday.hello8ball.question.QuestionEightBall
 import net.maiatoday.hello8ball.question.QuestionInterface
 import net.maiatoday.hello8ball.question.QuestionRepository
-import net.maiatoday.hello8ball.testutil.CoroutinesTestRule
-import net.maiatoday.hello8ball.testutil.SlowFakeAnswer
-import net.maiatoday.hello8ball.testutil.TestDispatcherProvider
-import net.maiatoday.hello8ball.testutil.getValueForTest
-import org.junit.Rule
-import org.junit.Test
+import net.maiatoday.hello8ball.testutil.*
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mockito
 import org.mockito.Mockito.verify
 
 @ExperimentalCoroutinesApi
+@ExtendWith(InstantExecutorExtension::class)
 class MyViewModelTest {
 
-    // Set the main coroutines dispatcher for unit testing.
-    // We are setting the above-defined testDispatcher as the Main thread dispatcher.
-    @get:Rule
-    var coroutinesTestRule = CoroutinesTestRule()
-
-    // Executes each task synchronously using Architecture Components.
-    @get:Rule
-    val instantTaskExecutorRule = InstantTaskExecutorRule()
-
-    val testDispatcher = coroutinesTestRule.testDispatcher
+    val testDispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
     val contextProvider = TestDispatcherProvider(testDispatcher)
+
+    @BeforeEach
+    fun setup() {
+        Dispatchers.setMain(testDispatcher)
+    }
+
+    @AfterEach
+    fun tearDown() {
+        Dispatchers.resetMain()
+        testDispatcher.cleanupTestCoroutines()
+    }
 
     @Test
     fun `loading is false in the beginning`() =

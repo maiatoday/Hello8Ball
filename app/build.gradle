@@ -26,6 +26,16 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    testOptions {
+        junitPlatform {
+         //   configurationParameter "junit.jupiter.execution.parallell.enabled", "true"
+        }
+        unitTests.all {
+            testLogging {
+                events "skipped", "passed", "failed"
+            }
+        }
+    }
     lintOptions {
         lintConfig file("lint.xml")
         warningsAsErrors true
