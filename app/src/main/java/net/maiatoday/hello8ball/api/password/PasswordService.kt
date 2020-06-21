@@ -5,6 +5,7 @@ import kotlinx.coroutines.Deferred
 import net.maiatoday.hello8ball.BuildConfig
 import net.maiatoday.hello8ball.api.synonym.SynonymResponse
 import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -25,7 +26,7 @@ interface PasswordService {
         private lateinit var retrofit: Retrofit
         private var baseUrl = "https://www.passwordrandom.com/"
         val instance: PasswordService by lazy {
-            passwordService(HttpUrl.get(baseUrl))
+            passwordService(baseUrl.toHttpUrl())
         }
 
         /**
