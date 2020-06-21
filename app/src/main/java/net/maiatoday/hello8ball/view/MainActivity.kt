@@ -16,39 +16,38 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import net.maiatoday.hello8ball.R
 import net.maiatoday.hello8ball.question.QuestionRepository
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity(), CopyHandler {
+
+    private val viewModel: MyViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        val repository = QuestionRepository()
-        val model = ViewModelProviders
-            .of(this, MyViewModel.FACTORY(repository))
-            .get(MyViewModel::class.java)
-        model.copyHandler = this
-        model.answer.observe(this, Observer<String> { newAnswer ->
+        viewModel.copyHandler = this
+        viewModel.answer.observe(this, Observer<String> { newAnswer ->
             answer.text = newAnswer
         })
-        model.isloading.observe(this, Observer<Boolean> { isLoading ->
+        viewModel.isloading.observe(this, Observer<Boolean> { isLoading ->
             progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
             image8ball.visibility = if (isLoading) View.INVISIBLE else View.VISIBLE
         })
 
         image8ball.setOnClickListener {
-            model.fetchAnswer(question.text.toString())
+            viewModel.fetchAnswer(question.text.toString())
         }
 
         fab.setOnClickListener {
-            model.fetchAnswer(question.text.toString())
+            viewModel.fetchAnswer(question.text.toString())
         }
 
         question.setOnEditorActionListener { _, actionId, _ ->
             return@setOnEditorActionListener when (actionId) {
                 EditorInfo.IME_ACTION_DONE -> {
-                    model.fetchAnswer(question.text.toString())
+                    viewModel.fetchAnswer(question.text.toString())
                     false
                 }
                 else -> false

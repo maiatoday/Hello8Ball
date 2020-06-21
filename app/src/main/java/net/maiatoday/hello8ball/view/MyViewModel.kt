@@ -11,15 +11,6 @@ import net.maiatoday.hello8ball.util.singleArgViewModelFactory
 
 class MyViewModel(private val repository: QuestionRepository) : ViewModel() {
 
-    companion object {
-        /**
-         * Factory for creating [MyViewModel]
-         *
-         * @param arg the repository to pass to [MyViewModel]
-         */
-        val FACTORY = singleArgViewModelFactory(::MyViewModel)
-    }
-
     /**
      * Answer from the repository
      */
