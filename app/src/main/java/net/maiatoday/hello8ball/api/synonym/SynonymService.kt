@@ -4,6 +4,7 @@ import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterF
 import kotlinx.coroutines.Deferred
 import net.maiatoday.hello8ball.BuildConfig
 import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -29,7 +30,7 @@ interface SynonymService {
         private lateinit var retrofit: Retrofit
         private var baseUrl = "https://wordsapiv1.p.rapidapi.com/"
         val instance: SynonymService by lazy {
-            synonymService(HttpUrl.get(baseUrl))
+            synonymService(baseUrl.toHttpUrl())
         }
 
         /**
