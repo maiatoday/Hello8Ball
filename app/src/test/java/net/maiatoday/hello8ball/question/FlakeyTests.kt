@@ -6,17 +6,42 @@ import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
+import net.maiatoday.hello8ball.di.repositoryModule
+import net.maiatoday.hello8ball.di.uiModule
 import net.maiatoday.hello8ball.testutil.CoroutinesTestRule
 import net.maiatoday.hello8ball.testutil.getValueForTest
+import net.maiatoday.hello8ball.util.DispatcherProvider
 import net.maiatoday.hello8ball.view.MyViewModel
 import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
+import org.koin.core.qualifier.named
+import org.koin.dsl.module
+import org.koin.test.KoinTest
+import org.koin.test.KoinTestRule
+import org.koin.test.inject
 import org.mockito.Mockito
 
 @ExperimentalCoroutinesApi
 @Ignore("flakey tests for demo")
-class FlakeyTests {
+class FlakeyTests: KoinTest {
+
+    private val testModule = module {
+        single<QuestionInterface>(named("eightBall")) { Mockito.mock(QuestionInterface::class.java) }
+        factory<QuestionInterface>(named("password")) { Mockito.mock(QuestionInterface::class.java) }
+        factory<QuestionInterface>(named("synonym")) { Mockito.mock(QuestionInterface::class.java) }
+        single { DispatcherProvider() }
+        single { QuestionRepository(
+            get(named("eightBall")),
+            get(named("password")),
+            get(named("synonym")),
+            get()) }
+    }
+    @get:Rule
+    val koinTestRule = KoinTestRule.create {
+        modules(testModule, uiModule)
+    }
+
     // Set the main coroutines dispatcher for unit testing.
     // We are setting the above-defined testDispatcher as the Main thread dispatcher.
     @get:Rule
@@ -26,10 +51,10 @@ class FlakeyTests {
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
+    private val repository:QuestionRepository by inject()
+
     @Test
     fun `asking a question sets is loading`() = runBlocking {
-        val mockQuestionInterface = Mockito.mock(QuestionInterface::class.java)
-        val repository = QuestionRepository(mockQuestionInterface)
         val subject = MyViewModel(repository)
 
         subject.fetchAnswer("hello world")
@@ -42,7 +67,6 @@ class FlakeyTests {
     fun `return an answer stops loading`() = runBlocking {
         val mockQuestionInterface = Mockito.mock(QuestionInterface::class.java)
         Mockito.`when`(mockQuestionInterface.getAnswer()).thenReturn("Yes")
-        val repository = QuestionRepository(mockQuestionInterface)
         val subject = MyViewModel(repository)
 
         subject.fetchAnswer("hello world")
@@ -53,8 +77,6 @@ class FlakeyTests {
 
     @Test
     fun `asking a question sets is loading (flakey)`() {
-        val mockQuestionInterface = Mockito.mock(QuestionInterface::class.java)
-        val repository = QuestionRepository(mockQuestionInterface)
         val subject = MyViewModel(repository)
 
         subject.fetchAnswer("hello world")

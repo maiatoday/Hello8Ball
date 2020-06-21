@@ -6,8 +6,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
-import net.maiatoday.hello8ball.question.QuestionEightBall
-import net.maiatoday.hello8ball.question.QuestionRepository
+import net.maiatoday.hello8ball.di.repositoryModule
+import net.maiatoday.hello8ball.di.uiModule
 import net.maiatoday.hello8ball.testutil.CoroutinesTestRule
 import net.maiatoday.hello8ball.testutil.TestDispatcherProvider
 import net.maiatoday.hello8ball.testutil.getValueForTest
@@ -15,10 +15,18 @@ import net.maiatoday.hello8ball.view.MyViewModel
 import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
+import org.koin.test.KoinTest
+import org.koin.test.KoinTestRule
+import org.koin.test.inject
 
 @ExperimentalCoroutinesApi
 @Ignore("Slow and fast tests for demo")
-class SlowFastTests {
+class SlowFastTests: KoinTest {
+
+    @get:Rule
+    val koinTestRule = KoinTestRule.create {
+        modules(repositoryModule, uiModule)
+    }
 
     // Set the main coroutines dispatcher for unit testing.
     // We are setting the above-defined testDispatcher as the Main thread dispatcher.
@@ -31,6 +39,8 @@ class SlowFastTests {
 
     val testDispatcher = coroutinesTestRule.testDispatcher
     val contextProvider = TestDispatcherProvider(testDispatcher)
+
+    private val repository:QuestionRepository by inject()
 
     @Test
     fun `🐢️ should return valid answer (delay)`() = runBlocking {
@@ -46,7 +56,6 @@ class SlowFastTests {
 
     @Test
     fun `🐢️ asking a real question returns an answer (delay)`() = runBlocking {
-        val repository = QuestionRepository(QuestionEightBall)
         val subject = MyViewModel(repository)
 
         subject.fetchAnswer("hello world")
@@ -59,8 +68,6 @@ class SlowFastTests {
         coroutinesTestRule.testDispatcher.runBlockingTest {
             pauseDispatcher {
 
-                val repository =
-                    QuestionRepository(contextProvider = contextProvider)
                 val subject = MyViewModel(repository)
 
                 subject.fetchAnswer("hello world")
@@ -71,9 +78,8 @@ class SlowFastTests {
 
     @Test
     fun `🐢️ should return answer from 🎱 (delay)`() = runBlocking {
-        val subject = QuestionRepository(QuestionEightBall)
 
-        val answer = subject.ponder("Any question")
+        val answer = repository.ponder("Any question")
 
         assertThat(answer).isIn(QuestionEightBall.answers)
     }
@@ -81,10 +87,8 @@ class SlowFastTests {
     @Test
     fun `🐰 should return answer from 🎱 (no delay)`() =
         coroutinesTestRule.testDispatcher.runBlockingTest {
-            val subject =
-                QuestionRepository(contextProvider = contextProvider)
 
-            val answer = subject.ponder("Any question")
+            val answer = repository.ponder("Any question")
 
             assertThat(answer).isIn(QuestionEightBall.answers)
         }
