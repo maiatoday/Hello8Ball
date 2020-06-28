@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.*
 import com.google.android.material.snackbar.Snackbar
@@ -22,7 +23,7 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity(), CopyHandler {
 
     @Inject lateinit var repository: QuestionRepository
-    private val viewModel: MyViewModel by lazy { ViewModelProvider(this).get(MyViewModel::class.java) }
+    private val viewModel: MyViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
