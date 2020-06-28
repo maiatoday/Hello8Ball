@@ -10,16 +10,7 @@ import kotlinx.coroutines.launch
 import net.maiatoday.hello8ball.question.QuestionRepository
 import net.maiatoday.hello8ball.util.singleArgViewModelFactory
 
-class MyViewModel constructor(private val repository: QuestionRepository) : ViewModel() {
-
-    companion object {
-        /**
-         * Factory for creating [MyViewModel]
-         *
-         * @param arg the repository to pass to [MyViewModel]
-         */
-        val FACTORY = singleArgViewModelFactory(::MyViewModel)
-    }
+class MyViewModel @ViewModelInject constructor(private val repository: QuestionRepository) : ViewModel() {
 
     /**
      * Answer from the repository
