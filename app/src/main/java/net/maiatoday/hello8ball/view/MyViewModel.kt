@@ -1,5 +1,6 @@
 package net.maiatoday.hello8ball.view
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,7 +10,7 @@ import kotlinx.coroutines.launch
 import net.maiatoday.hello8ball.question.QuestionRepository
 import net.maiatoday.hello8ball.util.singleArgViewModelFactory
 
-class MyViewModel(private val repository: QuestionRepository) : ViewModel() {
+class MyViewModel constructor(private val repository: QuestionRepository) : ViewModel() {
 
     companion object {
         /**

@@ -24,6 +24,8 @@ object AppModule {
     @Retention(AnnotationRetention.RUNTIME)
     annotation class SynonymAnswers
 
+    // There are predefined qualifiers @ApplicationContext and @ActivityContext qualifiers if needed.
+
     @Singleton
     @EightBallAnswers
     @Provides
@@ -43,12 +45,6 @@ object AppModule {
     @Provides
     fun provideQuestionSynonym(): QuestionInterface {
         return QuestionSynonym()
-    }
-
-    @Singleton
-    @Provides
-    fun provideDispatcher(): DispatcherProvider {
-        return DispatcherProvider()
     }
 
     @Singleton

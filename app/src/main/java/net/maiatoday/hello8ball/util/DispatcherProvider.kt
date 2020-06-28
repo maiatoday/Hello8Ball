@@ -2,11 +2,12 @@ package net.maiatoday.hello8ball.util
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import javax.inject.Inject
 
 /**
  * Provides the run contexts for the coroutines. Main runs on the UI thread and IO runs on the CommonPool
  */
-open class DispatcherProvider {
+open class DispatcherProvider @Inject constructor() {
     /**
      * Main coroutine context running on the UI thread
      */
