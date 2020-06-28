@@ -12,10 +12,10 @@ import java.util.*
  * live data.
  */
 class QuestionRepository(
-    val eightBall: QuestionInterface = QuestionEightBall,
-    val password: QuestionInterface = QuestionPassword(),
-    val synonym: QuestionInterface = QuestionSynonym(),
-    val contextProvider: DispatcherProvider = DispatcherProvider()
+    val eightBall: QuestionInterface,
+    val password: QuestionInterface,
+    val synonym: QuestionInterface,
+    val contextProvider: DispatcherProvider
 ) {
     private val _answer: MutableLiveData<String> by lazy {
         MutableLiveData<String>()

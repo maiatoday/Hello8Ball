@@ -12,19 +12,23 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import net.maiatoday.hello8ball.R
 import net.maiatoday.hello8ball.question.QuestionRepository
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity(), CopyHandler {
+
+    @Inject lateinit var repository: QuestionRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        val repository = QuestionRepository()
         val model = ViewModelProviders
             .of(this, MyViewModel.FACTORY(repository))
             .get(MyViewModel::class.java)
