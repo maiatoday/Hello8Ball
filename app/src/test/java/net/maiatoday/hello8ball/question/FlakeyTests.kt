@@ -8,6 +8,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import net.maiatoday.hello8ball.testutil.CoroutinesTestRule
 import net.maiatoday.hello8ball.testutil.getValueForTest
+import net.maiatoday.hello8ball.util.DispatcherProvider
 import net.maiatoday.hello8ball.view.MyViewModel
 import org.junit.Ignore
 import org.junit.Rule
@@ -22,6 +23,11 @@ class FlakeyTests {
     @get:Rule
     var coroutinesTestRule = CoroutinesTestRule()
 
+    val eightBall = QuestionEightBall
+    val password = QuestionPassword()
+    val synonym = QuestionSynonym()
+    val contextProvider = DispatcherProvider()
+
     // Executes each task synchronously using Architecture Components.
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
@@ -29,7 +35,7 @@ class FlakeyTests {
     @Test
     fun `asking a question sets is loading`() = runBlocking {
         val mockQuestionInterface = Mockito.mock(QuestionInterface::class.java)
-        val repository = QuestionRepository(mockQuestionInterface)
+        val repository = QuestionRepository(mockQuestionInterface, password, synonym, contextProvider)
         val subject = MyViewModel(repository)
 
         subject.fetchAnswer("hello world")
@@ -42,7 +48,7 @@ class FlakeyTests {
     fun `return an answer stops loading`() = runBlocking {
         val mockQuestionInterface = Mockito.mock(QuestionInterface::class.java)
         Mockito.`when`(mockQuestionInterface.getAnswer()).thenReturn("Yes")
-        val repository = QuestionRepository(mockQuestionInterface)
+        val repository = QuestionRepository(mockQuestionInterface, password, synonym, contextProvider)
         val subject = MyViewModel(repository)
 
         subject.fetchAnswer("hello world")
@@ -54,7 +60,7 @@ class FlakeyTests {
     @Test
     fun `asking a question sets is loading (flakey)`() {
         val mockQuestionInterface = Mockito.mock(QuestionInterface::class.java)
-        val repository = QuestionRepository(mockQuestionInterface)
+        val repository = QuestionRepository(mockQuestionInterface, password, synonym, contextProvider)
         val subject = MyViewModel(repository)
 
         subject.fetchAnswer("hello world")

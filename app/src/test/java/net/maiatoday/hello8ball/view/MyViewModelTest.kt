@@ -4,9 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
-import net.maiatoday.hello8ball.question.QuestionEightBall
-import net.maiatoday.hello8ball.question.QuestionInterface
-import net.maiatoday.hello8ball.question.QuestionRepository
+import net.maiatoday.hello8ball.question.*
 import net.maiatoday.hello8ball.testutil.CoroutinesTestRule
 import net.maiatoday.hello8ball.testutil.SlowFakeAnswer
 import net.maiatoday.hello8ball.testutil.TestDispatcherProvider
@@ -28,6 +26,8 @@ class MyViewModelTest {
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
+    val password = QuestionPassword()
+    val synonym = QuestionSynonym()
     val testDispatcher = coroutinesTestRule.testDispatcher
     val contextProvider = TestDispatcherProvider(testDispatcher)
 
@@ -37,6 +37,8 @@ class MyViewModelTest {
         val mockQuestionInterface = Mockito.mock(QuestionInterface::class.java)
         val repository = QuestionRepository(
             eightBall = mockQuestionInterface,
+            password = password,
+            synonym = synonym,
             contextProvider = contextProvider)
         val subject = MyViewModel(repository)
 
@@ -52,6 +54,8 @@ class MyViewModelTest {
                 val fakeInterface: QuestionInterface = SlowFakeAnswer(5000)
                 val repository = QuestionRepository(
                     eightBall = fakeInterface,
+                    password = password,
+                    synonym = synonym,
                     contextProvider = contextProvider
                 )
 
@@ -76,6 +80,8 @@ class MyViewModelTest {
             val fakeInterface: QuestionInterface = SlowFakeAnswer(1, "yes")
             val repository = QuestionRepository(
                 eightBall = fakeInterface,
+                password = password,
+                synonym = synonym,
                 contextProvider = contextProvider
             )
             val subject = MyViewModel(repository)
@@ -132,6 +138,8 @@ class MyViewModelTest {
                 val fakeInterface: QuestionInterface = SlowFakeAnswer(1, "copycopy")
                 val repository = QuestionRepository(
                     eightBall = fakeInterface,
+                    password = password,
+                    synonym = synonym,
                     contextProvider = contextProvider
                 )
                 val subject = MyViewModel(repository)
@@ -153,6 +161,8 @@ class MyViewModelTest {
                 val fakeInterface: QuestionInterface = SlowFakeAnswer(1, "copycopy")
                 val repository = QuestionRepository(
                     eightBall = fakeInterface,
+                    password = password,
+                    synonym = synonym,
                     contextProvider = contextProvider
                 )
                 val subject = MyViewModel(repository)

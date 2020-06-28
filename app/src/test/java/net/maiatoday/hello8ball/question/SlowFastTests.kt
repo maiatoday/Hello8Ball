@@ -29,6 +29,9 @@ class SlowFastTests {
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
+    val eightBall = QuestionEightBall
+    val password = QuestionPassword()
+    val synonym = QuestionSynonym()
     val testDispatcher = coroutinesTestRule.testDispatcher
     val contextProvider = TestDispatcherProvider(testDispatcher)
 
@@ -46,12 +49,17 @@ class SlowFastTests {
 
     @Test
     fun `🐢️ asking a real question returns an answer (delay)`() = runBlocking {
-        val repository = QuestionRepository(QuestionEightBall)
+        val repository = QuestionRepository(
+            eightBall = eightBall,
+            password = password,
+            synonym = synonym,
+            contextProvider = contextProvider
+        )
         val subject = MyViewModel(repository)
 
         subject.fetchAnswer("hello world")
         delay(3000)
-        assertThat(subject.answer.getValueForTest()).isIn(QuestionEightBall.answers)
+        assertThat(subject.answer.getValueForTest()).isIn(eightBall.answers)
     }
 
     @Test
@@ -60,29 +68,44 @@ class SlowFastTests {
             pauseDispatcher {
 
                 val repository =
-                    QuestionRepository(contextProvider = contextProvider)
+                    QuestionRepository(
+                        eightBall = eightBall,
+                        password = password,
+                        synonym = synonym,
+                        contextProvider = contextProvider
+                    )
                 val subject = MyViewModel(repository)
 
                 subject.fetchAnswer("hello world")
                 advanceTimeBy(5000)
-                assertThat(subject.answer.getValueForTest()).isIn(QuestionEightBall.answers)
+                assertThat(subject.answer.getValueForTest()).isIn(eightBall.answers)
             }
         }
 
     @Test
     fun `🐢️ should return answer from 🎱 (delay)`() = runBlocking {
-        val subject = QuestionRepository(QuestionEightBall)
+        val subject = QuestionRepository(
+            eightBall = eightBall,
+            password = password,
+            synonym = synonym,
+            contextProvider = contextProvider
+        )
 
         val answer = subject.ponder("Any question")
 
-        assertThat(answer).isIn(QuestionEightBall.answers)
+        assertThat(answer).isIn(eightBall.answers)
     }
 
     @Test
     fun `🐰 should return answer from 🎱 (no delay)`() =
         coroutinesTestRule.testDispatcher.runBlockingTest {
             val subject =
-                QuestionRepository(contextProvider = contextProvider)
+                QuestionRepository(
+                    eightBall = eightBall,
+                    password = password,
+                    synonym = synonym,
+                    contextProvider = contextProvider
+                )
 
             val answer = subject.ponder("Any question")
 
