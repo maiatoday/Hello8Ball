@@ -4,46 +4,22 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
-import net.maiatoday.hello8ball.di.uiModule
-import net.maiatoday.hello8ball.question.QuestionEightBall
-import net.maiatoday.hello8ball.question.QuestionInterface
-import net.maiatoday.hello8ball.question.QuestionRepository
+import net.maiatoday.hello8ball.question.*
 import net.maiatoday.hello8ball.testutil.CoroutinesTestRule
 import net.maiatoday.hello8ball.testutil.SlowFakeAnswer
 import net.maiatoday.hello8ball.testutil.TestDispatcherProvider
 import net.maiatoday.hello8ball.testutil.getValueForTest
 import org.junit.Rule
 import org.junit.Test
-import org.koin.core.qualifier.named
-import org.koin.dsl.module
-import org.koin.test.KoinTest
-import org.koin.test.KoinTestRule
-import org.koin.test.inject
 import org.mockito.Mockito
 import org.mockito.Mockito.verify
 
 @ExperimentalCoroutinesApi
-class MyViewModelTest: KoinTest {
+class MyViewModelTest {
 
     val mockQuestionInterface = Mockito.mock(QuestionInterface::class.java)
-    val testModule = module {
-        single<QuestionInterface>(named("eightBall")) { SlowFakeAnswer(5000) }
-        factory<QuestionInterface>(named("password")) { mockQuestionInterface }
-        factory<QuestionInterface>(named("synonym")) { mockQuestionInterface }
-        single { contextProvider }
-        single { QuestionRepository(
-            get(named("eightBall")),
-            get(named("password")),
-            get(named("synonym")),
-            get()) }
-    }
-
-    @get:Rule
-    val koinTestRule = KoinTestRule.create {
-        modules(testModule, uiModule)
-    }
-
-    private val repository:QuestionRepository by inject()
+    val password = QuestionPassword()
+    val synonym = QuestionSynonym()
 
     // Set the main coroutines dispatcher for unit testing.
     // We are setting the above-defined testDispatcher as the Main thread dispatcher.
@@ -60,16 +36,30 @@ class MyViewModelTest: KoinTest {
     @Test
     fun `loading is false in the beginning`() =
         testDispatcher.runBlockingTest {
+            val mockQuestionInterface = Mockito.mock(QuestionInterface::class.java)
+            val repository = QuestionRepository(
+                eightBall = mockQuestionInterface,
+                password = password,
+                synonym = synonym,
+                contextProvider = contextProvider
+            )
+            val subject = MyViewModel(repository)
 
-        val subject = MyViewModel(repository)
-
-        assertThat(subject.isloading.getValueForTest()).isFalse()
-    }
+            assertThat(subject.isloading.getValueForTest()).isFalse()
+        }
 
     @Test
     fun `asking a question sets is loading ⚡️🕥`() =
         testDispatcher.runBlockingTest {
             pauseDispatcher {
+                // setup fake that responds slowly
+                val fakeInterface: QuestionInterface = SlowFakeAnswer(5000)
+                val repository = QuestionRepository(
+                    eightBall = fakeInterface,
+                    password = password,
+                    synonym = synonym,
+                    contextProvider = contextProvider
+                )
 
                 // setup subject
                 val subject = MyViewModel(repository)
@@ -89,7 +79,13 @@ class MyViewModelTest: KoinTest {
     @Test
     fun `asking a question returns an answer`() =
         testDispatcher.runBlockingTest {
-
+            val fakeInterface: QuestionInterface = SlowFakeAnswer(1, "yes")
+            val repository = QuestionRepository(
+                eightBall = fakeInterface,
+                password = password,
+                synonym = synonym,
+                contextProvider = contextProvider
+            )
             val subject = MyViewModel(repository)
 
             subject.fetchAnswer("hello world")
@@ -137,11 +133,17 @@ class MyViewModelTest: KoinTest {
         }
 
     @Test
-    fun `clicking onCopy calls the copy handler with the answer`()  =
+    fun `clicking onCopy calls the copy handler with the answer`() =
         testDispatcher.runBlockingTest {
             pauseDispatcher {
                 val mockCopyHandler = Mockito.mock(CopyHandler::class.java)
-
+                val fakeInterface: QuestionInterface = SlowFakeAnswer(1, "copycopy")
+                val repository = QuestionRepository(
+                    eightBall = fakeInterface,
+                    password = password,
+                    synonym = synonym,
+                    contextProvider = contextProvider
+                )
                 val subject = MyViewModel(repository)
                 subject.copyHandler = mockCopyHandler
 
@@ -155,10 +157,16 @@ class MyViewModelTest: KoinTest {
         }
 
     @Test
-    fun `clicking onCopy with no copy handler does nothing`()  =
+    fun `clicking onCopy with no copy handler does nothing`() =
         testDispatcher.runBlockingTest {
             pauseDispatcher {
-
+                val fakeInterface: QuestionInterface = SlowFakeAnswer(1, "copycopy")
+                val repository = QuestionRepository(
+                    eightBall = fakeInterface,
+                    password = password,
+                    synonym = synonym,
+                    contextProvider = contextProvider
+                )
                 val subject = MyViewModel(repository)
 
                 subject.fetchAnswer("hello world")
