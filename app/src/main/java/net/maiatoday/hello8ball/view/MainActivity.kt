@@ -9,8 +9,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.*
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
@@ -23,36 +22,34 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity(), CopyHandler {
 
     @Inject lateinit var repository: QuestionRepository
+    private val viewModel: MyViewModel by lazy { ViewModelProvider(this).get(MyViewModel::class.java) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        val model = ViewModelProviders
-            .of(this, MyViewModel.FACTORY(repository))
-            .get(MyViewModel::class.java)
-        model.copyHandler = this
-        model.answer.observe(this, Observer<String> { newAnswer ->
+        viewModel.copyHandler = this
+        viewModel.answer.observe(this, Observer<String> { newAnswer ->
             answer.text = newAnswer
         })
-        model.isloading.observe(this, Observer<Boolean> { isLoading ->
+        viewModel.isloading.observe(this, Observer<Boolean> { isLoading ->
             progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
             image8ball.visibility = if (isLoading) View.INVISIBLE else View.VISIBLE
         })
 
         image8ball.setOnClickListener {
-            model.fetchAnswer(question.text.toString())
+            viewModel.fetchAnswer(question.text.toString())
         }
 
         fab.setOnClickListener {
-            model.fetchAnswer(question.text.toString())
+            viewModel.fetchAnswer(question.text.toString())
         }
 
         question.setOnEditorActionListener { _, actionId, _ ->
             return@setOnEditorActionListener when (actionId) {
                 EditorInfo.IME_ACTION_DONE -> {
-                    model.fetchAnswer(question.text.toString())
+                    viewModel.fetchAnswer(question.text.toString())
                     false
                 }
                 else -> false
@@ -90,8 +87,7 @@ class MainActivity : AppCompatActivity(), CopyHandler {
 
     @Suppress("UNUSED_PARAMETER")
     fun copyQuestion(view : View) {
-        val model = ViewModelProviders.of(this)[MyViewModel::class.java]
-        model.onCopy()
+        viewModel.onCopy()
     }
 
 }
