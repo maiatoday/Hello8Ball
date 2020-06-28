@@ -17,10 +17,18 @@ class QuestionRepositoryTest {
     val mockQuestionInterface = Mockito.mock(QuestionInterface::class.java)
     val testDispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
     val contextProvider = TestDispatcherProvider(testDispatcher)
+    val eightBall = QuestionEightBall
+    val password = QuestionPassword()
+    val synonym = QuestionSynonym()
 
     @Test
     fun `should return 42 on life universe question`() = testDispatcher.runBlockingTest {
-        val subject = QuestionRepository(contextProvider = contextProvider)
+        val subject = QuestionRepository(
+            eightBall = eightBall,
+            password = password,
+            synonym = synonym,
+            contextProvider = contextProvider
+        )
 
         val answer = subject.ponder("the meaning of life the universe and everything")
 
@@ -29,7 +37,12 @@ class QuestionRepositoryTest {
 
     @Test
     fun `should detect prime number`() = testDispatcher.runBlockingTest {
-        val subject = QuestionRepository(contextProvider = contextProvider)
+        val subject = QuestionRepository(
+            eightBall = eightBall,
+            password = password,
+            synonym = synonym,
+            contextProvider = contextProvider
+        )
 
         val answer = subject.ponder("773")
 
@@ -38,7 +51,12 @@ class QuestionRepositoryTest {
 
     @Test
     fun `should detect non prime number`() = testDispatcher.runBlockingTest {
-        val subject = QuestionRepository(contextProvider = contextProvider)
+        val subject = QuestionRepository(
+            eightBall = eightBall,
+            password = password,
+            synonym = synonym,
+            contextProvider = contextProvider
+        )
 
         val answer = subject.ponder("774")
 
@@ -48,8 +66,12 @@ class QuestionRepositoryTest {
     @Test
     fun `should return answer from 🎱`() = testDispatcher.runBlockingTest {
         Mockito.`when`(mockQuestionInterface.getAnswer()).thenReturn("Yes")
-        val subject = QuestionRepository(eightBall = mockQuestionInterface,
-            contextProvider = contextProvider)
+        val subject = QuestionRepository(
+            eightBall = mockQuestionInterface,
+            password = password,
+            synonym = synonym,
+            contextProvider = contextProvider
+        )
 
         val answer = subject.ponder("Any question")
 
@@ -60,8 +82,11 @@ class QuestionRepositoryTest {
     fun `should return password 🐲`() = testDispatcher.runBlockingTest {
         Mockito.`when`(mockQuestionInterface.getAnswer()).thenReturn("dragon")
         val subject = QuestionRepository(
+            eightBall = eightBall,
             password = mockQuestionInterface,
-            contextProvider = contextProvider)
+            synonym = synonym,
+            contextProvider = contextProvider
+        )
 
         val answer = subject.ponder("password")
 
@@ -69,11 +94,14 @@ class QuestionRepositoryTest {
     }
 
     @Test
-    fun `should return synonym 👯` () = testDispatcher.runBlockingTest {
+    fun `should return synonym 👯`() = testDispatcher.runBlockingTest {
         Mockito.`when`(mockQuestionInterface.getAnswer("word")).thenReturn("formulate")
         val subject = QuestionRepository(
+            eightBall = eightBall,
+            password = password,
             synonym = mockQuestionInterface,
-            contextProvider = contextProvider)
+            contextProvider = contextProvider
+        )
 
         val answer = subject.ponder("word")
 
@@ -84,7 +112,11 @@ class QuestionRepositoryTest {
     @Test
     fun `🚀 should return answer from 🎱 (no delay)`() = testDispatcher.runBlockingTest {
         val subject =
-            QuestionRepository(contextProvider = contextProvider)
+            QuestionRepository(
+                eightBall = eightBall,
+                password = password,
+                synonym = synonym,
+                contextProvider = contextProvider)
 
         val answer = subject.ponder("Any question")
 
