@@ -40,4 +40,4 @@ Run the tests in Android studio or use the command line.
 
 ### Slides
 [Testing Kotlin co-routines](slides/TestingKotlinCoroutines.pdf) 
-[Dependecy injection](DI_Hilt-Koin.pdf) 
+[Dependecy injection](slides/DI_Hilt-Koin.pdf) 
