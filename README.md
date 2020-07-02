@@ -28,10 +28,6 @@ Run the tests in Android studio or use the command line.
 
 `./gradlew test`
 
-### Detekt
-
-`./gradlew detekt`
-
 ### Coverage
 
 `./gradlew testDebugUnitTestCoverageVerification`
@@ -42,3 +38,6 @@ Run the tests in Android studio or use the command line.
 
 <img src="screenshots/Screenshot_1566145786.png" width="256">
 
+### Slides
+[Testing Kotlin co-routines](slides/TestingKotlinCoroutines.pdf) 
+[Dependecy injection](DI_Hilt-Koin.pdf) 
