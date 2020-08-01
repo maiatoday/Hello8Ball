@@ -3,12 +3,11 @@ package net.maiatoday.hello8ball.view
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.Provides
@@ -51,7 +50,7 @@ class MainActivityTest {
         @Singleton
         @EightBallAnswers
         @Provides
-        fun provideQuestionEightBall(): QuestionInterface = object : QuestionInterface {
+        fun provideQuestion8Ball(): QuestionInterface = object : QuestionInterface {
             override suspend fun getAnswer(question: String): String = "Concentrate and ask again."
         }
 
@@ -68,14 +67,14 @@ class MainActivityTest {
     @Test
     fun mainActivityLaunches() {
         onView(withId(R.id.image8ball))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+            .check(matches(isDisplayed()))
     }
 
     @Test
     fun askPassword() {
 
         onView(withId(R.id.question))
-            .perform(ViewActions.replaceText("password"), ViewActions.closeSoftKeyboard())
+            .perform(replaceText("password"), closeSoftKeyboard())
 
         onView(withId(R.id.fab))
             .perform((click()))
@@ -88,7 +87,7 @@ class MainActivityTest {
     fun askSynonym() {
 
         onView(withId(R.id.question))
-            .perform(ViewActions.replaceText("word"), ViewActions.closeSoftKeyboard())
+            .perform(replaceText("word"), closeSoftKeyboard())
 
         onView(withId(R.id.fab))
             .perform((click()))
@@ -102,7 +101,7 @@ class MainActivityTest {
     fun askIsNotPrime() {
 
         onView(withId(R.id.question))
-            .perform(ViewActions.replaceText("12"), ViewActions.closeSoftKeyboard())
+            .perform(replaceText("12"), closeSoftKeyboard())
 
         onView(withId(R.id.fab))
             .perform((click()))
@@ -116,7 +115,7 @@ class MainActivityTest {
     fun askIsPrime() {
 
         onView(withId(R.id.question))
-            .perform(ViewActions.replaceText("173"), ViewActions.closeSoftKeyboard())
+            .perform(replaceText("173"), closeSoftKeyboard())
 
         onView(withId(R.id.fab))
             .perform((click()))
@@ -131,8 +130,8 @@ class MainActivityTest {
 
         onView(withId(R.id.question))
             .perform(
-                ViewActions.replaceText("the meaning of life, the universe and everything"),
-                ViewActions.closeSoftKeyboard()
+                replaceText("the meaning of life, the universe and everything"),
+                closeSoftKeyboard()
             )
 
         onView(withId(R.id.fab))
@@ -148,8 +147,8 @@ class MainActivityTest {
 
         onView(withId(R.id.question))
             .perform(
-                ViewActions.replaceText("why oh why"),
-                ViewActions.closeSoftKeyboard()
+                replaceText("why oh why"),
+                closeSoftKeyboard()
             )
 
         onView(withId(R.id.fab))
