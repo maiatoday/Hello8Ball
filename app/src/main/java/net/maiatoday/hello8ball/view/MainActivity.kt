@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity(), CopyHandler {
     override fun copy(item: String) {
         val clipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clipData = ClipData.newPlainText("Source Text", item)
-        clipboardManager.primaryClip = clipData
+        clipboardManager.setPrimaryClip(clipData)
         Snackbar.make(
             content_main,
             getString(R.string.copy_snack, item),
