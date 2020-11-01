@@ -1,5 +1,7 @@
 # Hello8Ball [![CircleCI](https://circleci.com/gh/maiatoday/Hello8Ball.svg?style=svg)](https://circleci.com/gh/maiatoday/Hello8Ball)
 
+![Android weekly 438](https://androidweekly.net/issues/issue-438/badge)
+
 <img src="./ball.svg" width="100">
 
 A Magic 8 Ball app to use a sampler to explore Kotlin coroutine testing in an Android setting. The app works as a magic 8 ball. It can also generate passwords, find a synonym for a word and check if a number is prime or not. There are [matching slides here](slides/TestingKotlinCoroutines.pdf) ([or here](https://docs.google.com/presentation/d/1rbkzioNdv1dkS35LcFa2lC0tFxkCwuhtr530JTeJh_8/edit?usp=sharing)) for a presentation at [Kotlin Everywhere 2019 in Johannesburg](https://www.kotlin-everywhere.co.za/).
