@@ -20,19 +20,15 @@ annotation class SynonymAnswers
 
 @Module
 @InstallIn(SingletonComponent::class)
-object NetworkModule {
-    @Singleton
+internal object NetworkModule {
     @PasswordAnswers
     @Provides
-    fun provideQuestionPassword(): QuestionInterface {
-        return QuestionPassword()
-    }
+    fun provideQuestionPassword(): QuestionInterface =
+        QuestionPassword()
 
-    @Singleton
     @SynonymAnswers
     @Provides
-    fun provideQuestionSynonym(): QuestionInterface {
-        return QuestionSynonym()
-    }
+    fun provideQuestionSynonym(): QuestionInterface =
+        QuestionSynonym()
 
 }

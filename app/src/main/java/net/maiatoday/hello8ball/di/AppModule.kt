@@ -10,7 +10,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule {
+internal object AppModule {
 
     // There are predefined qualifiers @ApplicationContext and @ActivityContext qualifiers if needed.
 
@@ -21,7 +21,7 @@ object AppModule {
         @PasswordAnswers password: QuestionInterface,
         @SynonymAnswers synonym: QuestionInterface,
         provider: DispatcherProvider
-    ): QuestionRepository {
-        return QuestionRepository(eightBall, password, synonym, provider)
-    }
+    ): QuestionRepository =
+        QuestionRepository(eightBall, password, synonym, provider)
+
 }

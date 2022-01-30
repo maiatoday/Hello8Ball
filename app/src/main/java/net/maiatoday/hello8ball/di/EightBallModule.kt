@@ -7,7 +7,6 @@ import dagger.hilt.components.SingletonComponent
 import net.maiatoday.hello8ball.question.QuestionEightBall
 import net.maiatoday.hello8ball.question.QuestionInterface
 import javax.inject.Qualifier
-import javax.inject.Singleton
 
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)
@@ -15,12 +14,10 @@ annotation class EightBallAnswers
 
 @Module
 @InstallIn(SingletonComponent::class)
-object EightBallModule {
-    @Singleton
+internal object EightBallModule {
     @EightBallAnswers
     @Provides
-    fun provideQuestion8Ball(): QuestionInterface {
-        return QuestionEightBall
-    }
+    fun provideQuestion8Ball(): QuestionInterface =
+        QuestionEightBall
 
 }

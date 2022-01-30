@@ -73,11 +73,10 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-scalars:2.9.0'
 
     // Hilt
-    def hilt_version = "2.38"
+    def hilt_version = "2.38.1"
     def hilt_androidx_version = "1.0.0-alpha03"
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
-    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_androidx_version"
     kapt "androidx.hilt:hilt-compiler:$hilt_androidx_version"
 
     testImplementation 'junit:junit:4.13.2'

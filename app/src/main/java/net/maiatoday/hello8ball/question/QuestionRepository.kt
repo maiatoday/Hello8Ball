@@ -6,12 +6,13 @@ import kotlinx.coroutines.withContext
 import net.maiatoday.hello8ball.util.DispatcherProvider
 import net.maiatoday.hello8ball.util.isPrime
 import java.util.*
+import javax.inject.Inject
 
 /**
  * The QuestionRepository answers questions as it sees fit. It provides the answer in the answer
  * live data.
  */
-class QuestionRepository(
+class QuestionRepository @Inject constructor(
     val eightBall: QuestionInterface,
     val password: QuestionInterface,
     val synonym: QuestionInterface,
