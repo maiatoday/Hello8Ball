@@ -13,44 +13,44 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.*
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.content_main.*
 import net.maiatoday.hello8ball.R
-import net.maiatoday.hello8ball.question.QuestionRepository
-import javax.inject.Inject
+import net.maiatoday.hello8ball.databinding.ActivityMainBinding
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), CopyHandler {
 
-    @Inject lateinit var repository: QuestionRepository
     private val viewModel: MyViewModel by viewModels()
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
+        setSupportActionBar(binding.toolbar)
 
         viewModel.copyHandler = this
         viewModel.answer.observe(this, Observer<String> { newAnswer ->
-            answer.text = newAnswer
+            binding.content.answer.text = newAnswer
         })
         viewModel.isloading.observe(this, Observer<Boolean> { isLoading ->
-            progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-            image8ball.visibility = if (isLoading) View.INVISIBLE else View.VISIBLE
+            binding.content.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+            binding.content.image8ball.visibility = if (isLoading) View.INVISIBLE else View.VISIBLE
         })
 
-        image8ball.setOnClickListener {
-            viewModel.fetchAnswer(question.text.toString())
+        binding.content.image8ball.setOnClickListener {
+            viewModel.fetchAnswer( binding.content.question.text.toString())
         }
 
-        fab.setOnClickListener {
-            viewModel.fetchAnswer(question.text.toString())
+        binding.fab.setOnClickListener {
+            viewModel.fetchAnswer( binding.content.question.text.toString())
         }
 
-        question.setOnEditorActionListener { _, actionId, _ ->
+        binding.content.question.setOnEditorActionListener { _, actionId, _ ->
             return@setOnEditorActionListener when (actionId) {
                 EditorInfo.IME_ACTION_DONE -> {
-                    viewModel.fetchAnswer(question.text.toString())
+                    viewModel.fetchAnswer(binding.content.question.text.toString())
                     false
                 }
                 else -> false
@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity(), CopyHandler {
         val clipData = ClipData.newPlainText("Source Text", item)
         clipboardManager.setPrimaryClip(clipData)
         Snackbar.make(
-            content_main,
+            binding.content.contentMain,
             getString(R.string.copy_snack, item),
             Snackbar.LENGTH_SHORT
         ).show()

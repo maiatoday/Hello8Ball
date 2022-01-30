@@ -3,7 +3,7 @@ package net.maiatoday.hello8ball.di
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.components.SingletonComponent
 import net.maiatoday.hello8ball.question.QuestionInterface
 import net.maiatoday.hello8ball.question.QuestionPassword
 import net.maiatoday.hello8ball.question.QuestionSynonym
@@ -19,7 +19,7 @@ annotation class PasswordAnswers
 annotation class SynonymAnswers
 
 @Module
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 object NetworkModule {
     @Singleton
     @PasswordAnswers

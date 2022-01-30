@@ -55,7 +55,7 @@ class QuestionRepository(
 fun parseQuestion(question: String): QuestionType =
     when {
         (question.toIntOrNull() != null) -> QuestionType.PRIME
-        (question.toLowerCase(Locale.getDefault()).contains("password")) -> QuestionType.PASSWORD
+        (question.lowercase(Locale.getDefault()).contains("password")) -> QuestionType.PASSWORD
         (question.isNotEmpty() && !question.contains(" ")) -> QuestionType.SYNONYM
         (question.contains("life") && question.contains("universe")) -> QuestionType.BASIC
         else -> QuestionType.OTHER

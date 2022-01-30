@@ -3,14 +3,13 @@ package net.maiatoday.hello8ball.di
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.components.SingletonComponent
 import net.maiatoday.hello8ball.question.*
 import net.maiatoday.hello8ball.util.DispatcherProvider
-import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 object AppModule {
 
     // There are predefined qualifiers @ApplicationContext and @ActivityContext qualifiers if needed.
