@@ -25,7 +25,8 @@ class QuestionRepository @Inject constructor(
     val answer: Flow<String> = _answer.asStateFlow()
 
     suspend fun getAnswer(question: String) {
-        _answer.value = ponder(question)
+        // also possible to set _answer.value
+        _answer.emit(ponder(question))
     }
 
     suspend fun ponder(question: String): String {
