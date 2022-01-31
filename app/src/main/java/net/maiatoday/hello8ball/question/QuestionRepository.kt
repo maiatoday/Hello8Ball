@@ -2,6 +2,9 @@ package net.maiatoday.hello8ball.question
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.withContext
 import net.maiatoday.hello8ball.util.DispatcherProvider
 import net.maiatoday.hello8ball.util.isPrime
@@ -18,11 +21,8 @@ class QuestionRepository @Inject constructor(
     val synonym: QuestionInterface,
     val contextProvider: DispatcherProvider
 ) {
-    private val _answer: MutableLiveData<String> by lazy {
-        MutableLiveData<String>()
-    }
-    val answer: LiveData<String>
-        get() = _answer
+    private val _answer = MutableStateFlow("")
+    val answer: Flow<String> = _answer.asStateFlow()
 
     suspend fun getAnswer(question: String) {
         _answer.value = ponder(question)
